@@ -4,7 +4,8 @@ import 'package:flats/Screens/login_screen.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flats/Screens/my_home.dart';
+
+// wrapping a widget: if user is logged in, wrapped widget will be returned, else LoginScreen() will
 
 class Wrapper extends StatelessWidget {
   Wrapper({Key? key, required Widget this.widget}) : super(key: key);
@@ -21,7 +22,7 @@ class Wrapper extends StatelessWidget {
           final User? user = snapshot.data;
           return user == null ? LoginScreen() : widget;
         }else{
-          return Scaffold(
+          return const Scaffold(
           body: Center(
           child: CircularProgressIndicator(),
           ),
