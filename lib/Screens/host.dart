@@ -13,14 +13,17 @@ class HostScreen extends StatefulWidget {
 
 
 class _HostScreenState extends State<HostScreen> {
-  String _email = "";
+  String? _email = "";
 
   @override
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
     authService.user!.listen(
-          (data) =>   _email = data!.email!,
+          (data) =>   {
+            if(data != null && data.email != null){
+            _email = data.email}
+            else{print("user stream is null")}},
     );
     return Container(
       child: FlatButton(
