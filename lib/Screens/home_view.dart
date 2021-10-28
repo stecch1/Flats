@@ -19,11 +19,13 @@ class HomeView extends StatelessWidget {
           markers.add(Marker(markerId: MarkerId("location"),
               position: latLng,
               infoWindow: InfoWindow(title: 'Statale', snippet: '500€/mese')));
+
           location = snapshot.data.docs[1]['location'];
           final latLng2 = LatLng(location.latitude, location.longitude);
           markers.add(Marker(markerId: MarkerId("location"),
               position: latLng2,
               infoWindow: InfoWindow(title: 'Bicocca', snippet: '450€/mese')));
+
           location = snapshot.data.docs[2]['location'];
           final latLng3 = LatLng(location.latitude, location.longitude);
           markers.add(Marker(markerId: MarkerId("location"),
