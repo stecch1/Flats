@@ -1,8 +1,7 @@
-
+import 'package:flats/Models/user_model.dart';
 import 'package:flats/Screens/host_map.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
 
@@ -16,33 +15,48 @@ class HostScreen extends StatefulWidget {
 
 
 class _HostScreenState extends State<HostScreen> {
-  String? email = "";
-  String? uid = "";
 
 
   @override
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
+    return StreamBuilder<User?>(
+      stream: authService.user,
+      builder:(_, AsyncSnapshot<User?> snapshot){
+        if(snapshot.connectionState == ConnectionState.active){
+          final User? user = snapshot.data;
+          return Scaffold(
 
-    authService.user!.listen(
-          (data) =>   {
-        if(data != null && data.uid != null){
-          uid = data.uid,
-        print(uid)}
-        else{print("user stream is null")}},
+            body: Container(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(child:Text("User email: "+ snapshot.data!.email!),),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HostMap(uid: snapshot.data!.uid)));
+                    },
+                    child: Text("add flat"),
+                  ),
+                ],
+
+
+              ),
+            ),
+          );
+        }else{
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      },
+
     );
 
-    return Scaffold(
-      body: Container(
-        child: FlatButton(
-          onPressed: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => HostMap(uid: uid!)));
-          },
-          child: Text("Map"),
-        ),
-      ),
-    ); //: new Container(child: Text("Container"));
   }
 }

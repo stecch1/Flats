@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flats/Models/user_model.dart';
-import 'package:flats/Screens/login_screen.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -49,13 +47,13 @@ class _HostMapState extends State<HostMap> {
           final latLng = LatLng(location.latitude, location.longitude);
           markers.add(Marker(markerId: MarkerId("location"),
               position: latLng,
-              infoWindow: InfoWindow(title: 'Cattolica', snippet: '350euro/mese')));
+              infoWindow: InfoWindow(title: snapshot.data.docs[0]['name'], snippet: snapshot.data.docs[0]['price'].toString() + " €/mese")));
 
           location = snapshot.data.docs[1]['location'];
           final latLng2 = LatLng(location.latitude, location.longitude);
           markers.add(Marker(markerId: MarkerId("location"),
               position: latLng2,
-              infoWindow: InfoWindow(title: 'polimi', snippet: '450€/mese')));
+              infoWindow: InfoWindow(title: snapshot.data.docs[1]['name'], snippet: '450€/mese')));
 
 
           if (location == null) {
