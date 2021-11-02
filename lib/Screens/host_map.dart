@@ -25,14 +25,11 @@ class _HostMapState extends State<HostMap> {
     final authService = Provider.of<AuthService>(context);
 
 
-
-
     return SafeArea(
       child: StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("Users/" + widget.uid + "/Locations")
-            .snapshots(),
+        stream: FirebaseFirestore.instance.collection("Location").where('uid', isEqualTo: widget.uid).snapshots(),
         builder: (context, AsyncSnapshot snapshot) {
+
           if (!snapshot.hasData) {
             return Scaffold(
               body: Container(
@@ -41,24 +38,24 @@ class _HostMapState extends State<HostMap> {
             );
           }
 
-          print(snapshot.data.docs[0]['name']);
+          GeoPoint location;
 
-          GeoPoint location = snapshot.data.docs[0]['location'];
-          final latLng = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng,
-              infoWindow: InfoWindow(title: snapshot.data.docs[0]['name'], snippet: snapshot.data.docs[0]['price'].toString() + " €/mese")));
+          var document = snapshot.data.docs.forEach((document) {
+            if (document.exists) {
 
-          location = snapshot.data.docs[1]['location'];
-          final latLng2 = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng2,
-              infoWindow: InfoWindow(title: snapshot.data.docs[1]['name'], snippet: '450€/mese')));
-
-
-          if (location == null) {
-            return Text("There was no location data");
+              location = document['location'];
+              var latLng = LatLng(location.latitude, location.longitude);
+              markers.add(Marker(markerId: MarkerId(document.id),
+                  position: latLng,
+                  infoWindow: InfoWindow(title: document['name'],
+                      snippet: document['price'].toString())));
+            }
+            else {
+              print('document does not exist');
+            }
           }
+
+          );
 
 
           return Scaffold(

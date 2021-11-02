@@ -14,31 +14,23 @@ class HomeView extends StatelessWidget {
           if (!snapshot.hasData) {
             return const Text('Loading Data...Please wait');
           }
-          GeoPoint location = snapshot.data.docs[0]['location'];
-          final latLng = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng,
-              infoWindow: InfoWindow(title: 'Statale', snippet: '500€/mese')));
+          GeoPoint location;
 
-          location = snapshot.data.docs[1]['location'];
-          final latLng2 = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng2,
-              infoWindow: InfoWindow(title: 'Bicocca', snippet: '450€/mese')));
+          var document = snapshot.data.docs.forEach((document){
 
-          location = snapshot.data.docs[2]['location'];
-          final latLng3 = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng3,
-              infoWindow: InfoWindow(title: 'Polimi', snippet: '650€/mese')));
-          location = snapshot.data.docs[3]['location'];
-          final latLng4 = LatLng(location.latitude, location.longitude);
-          markers.add(Marker(markerId: MarkerId("location"),
-              position: latLng4,
-              infoWindow: InfoWindow(title: 'Bocconi', snippet: '800€/mese')));
-          if (location == null) {
-            return Text("There was no location data");
-          }
+            if(document.exists){
+
+              location = document['location'];
+              var latLng = LatLng(location.latitude, location.longitude);
+              markers.add(Marker(markerId: MarkerId(document.id),
+                  position: latLng,
+                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString())));
+
+            }
+            else {
+              print('document does not exist');
+            }
+          });
 
 
           return GoogleMap(
