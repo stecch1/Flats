@@ -18,11 +18,15 @@ class HostMap extends StatefulWidget {
 class _HostMapState extends State<HostMap> {
 
   Set<Marker> markers = Set();
+  TextEditingController controller1 = TextEditingController ();
+  TextEditingController controller2 = TextEditingController ();
 
   @override
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
+
+
 
 
     return SafeArea(
@@ -65,6 +69,7 @@ class _HostMapState extends State<HostMap> {
               initialCameraPosition: CameraPosition(
                 target: LatLng(45.478436, 9.226619), zoom: 11.5,),
               markers: markers,
+              onLongPress: createDialog,
             ),
           );
 
@@ -74,4 +79,62 @@ class _HostMapState extends State<HostMap> {
       ),
     );
   }
+
+  createDialog(LatLng pos) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Add a new flat"),
+            content: Column(
+              children: [
+                Text("name"),
+                TextField(
+                  controller: controller1,
+                ),
+                Text("price"),
+                TextField(
+                  controller: controller2,
+                )
+              ],
+            ),
+            actions: [
+              MaterialButton(
+                onPressed: () {
+                  addMarker(pos, controller1.text,
+                      int.tryParse(controller2.text) ?? 0);
+                  Navigator.pop(context);
+                },
+                elevation: 5.0,
+                child: Text("Submit"),
+              ),
+            ],
+          );
+        });
+  }
+
+
+  addMarker(LatLng pos, String name, int price){
+    setState(() {
+      FirebaseFirestore.instance.collection('Location').add(
+          {
+            "uid": widget.uid,
+            "location": GeoPoint(pos.latitude, pos.longitude),
+            "name": name,
+            "price":price,
+          }
+      );
+
+    });
+
+  }
 }
+
+/*
+markers.add(Marker(
+        markerId:  MarkerId("temp_id"),
+        icon: BitmapDescriptor.defaultMarker,
+        position: pos,
+
+      ));
+ */
