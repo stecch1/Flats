@@ -39,7 +39,7 @@ class _HostScreenState extends State<HostScreen> {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HostMap(uid: snapshot.data!.uid)));
                     },
-                    child: Text("add flat"),
+                    child: Text("my flats"),
                   ),
                 ],
 

@@ -21,12 +21,11 @@ class _HostMapState extends State<HostMap> {
   TextEditingController controller1 = TextEditingController ();
   TextEditingController controller2 = TextEditingController ();
 
+
   @override
   Widget build(BuildContext context) {
 
     final authService = Provider.of<AuthService>(context);
-
-
 
 
     return SafeArea(
@@ -46,21 +45,23 @@ class _HostMapState extends State<HostMap> {
 
           var document = snapshot.data.docs.forEach((document) {
             if (document.exists) {
-
               location = document['location'];
               var latLng = LatLng(location.latitude, location.longitude);
-              markers.add(Marker(markerId: MarkerId(document.id),
-                  position: latLng,
-                  infoWindow: InfoWindow(title: document['name'],
-                      snippet: document['price'].toString())));
-            }
-            else {
+              markers.add(Marker(
+                  markerId: MarkerId(document.id),
+                position: latLng,
+                infoWindow: InfoWindow(
+                  title: document['name'],
+                  snippet: document['price'].toString(),
+                ),
+                onTap: () => _onMarkerPressed(document.id),
+              ));
+            } else {
               print('document does not exist');
             }
           }
 
           );
-
 
           return Scaffold(
             body: GoogleMap(
@@ -72,8 +73,6 @@ class _HostMapState extends State<HostMap> {
               onLongPress: createDialog,
             ),
           );
-
-
 
         },
       ),
@@ -113,7 +112,6 @@ class _HostMapState extends State<HostMap> {
         });
   }
 
-
   addMarker(LatLng pos, String name, int price){
     setState(() {
       FirebaseFirestore.instance.collection('Location').add(
@@ -128,13 +126,39 @@ class _HostMapState extends State<HostMap> {
     });
 
   }
+
+  _onMarkerPressed(String documentID) async {
+    await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            children: [
+              Container(
+                margin: EdgeInsets.all(5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    MaterialButton(
+                      onPressed: () {
+                        FirebaseFirestore.instance
+                            .collection("Location")
+                            .doc(documentID)
+                            .delete();
+                        markers.removeWhere((element) => element.markerId.value == documentID);
+                      },
+                      color: Colors.red,
+                      textColor: Colors.white,
+                      child: Text("Delete"),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          );
+        });
+    setState(() { });
+    print("ciaooommmmmmmmmmmmmmmmmm");
+    print(markers);
+  }
+
 }
-
-/*
-markers.add(Marker(
-        markerId:  MarkerId("temp_id"),
-        icon: BitmapDescriptor.defaultMarker,
-        position: pos,
-
-      ));
- */
