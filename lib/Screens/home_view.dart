@@ -1,8 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class HomeView extends StatelessWidget {
+class HomeView extends StatefulWidget {
+  @override
+  State<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
   Set<Marker> markers = Set();
 
   @override
@@ -17,14 +23,14 @@ class HomeView extends StatelessWidget {
           GeoPoint location;
 
           var document = snapshot.data.docs.forEach((document){
-
             if(document.exists){
-
               location = document['location'];
               var latLng = LatLng(location.latitude, location.longitude);
               markers.add(Marker(markerId: MarkerId(document.id),
                   position: latLng,
-                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString())));
+                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()),
+                  onTap: () => _onMarkerPressed(document.id),
+              ));
 
             }
             else {
@@ -43,5 +49,17 @@ class HomeView extends StatelessWidget {
         },
       ),
     );
+  }
+
+  _onMarkerPressed(String documentID) async {
+    await showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            children: [
+
+            ],
+          );
+        });
   }
 }

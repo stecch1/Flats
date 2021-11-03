@@ -70,7 +70,7 @@ class _HostMapState extends State<HostMap> {
               initialCameraPosition: CameraPosition(
                 target: LatLng(45.478436, 9.226619), zoom: 11.5,),
               markers: markers,
-              onLongPress: createDialog,
+              onLongPress: _addMarkerDialog,
             ),
           );
 
@@ -79,7 +79,7 @@ class _HostMapState extends State<HostMap> {
     );
   }
 
-  createDialog(LatLng pos) {
+  _addMarkerDialog(LatLng pos) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -100,8 +100,10 @@ class _HostMapState extends State<HostMap> {
             actions: [
               MaterialButton(
                 onPressed: () {
-                  addMarker(pos, controller1.text,
+                  _addMarker(pos, controller1.text,
                       int.tryParse(controller2.text) ?? 0);
+                  controller1.clear();
+                  controller2.clear();
                   Navigator.pop(context);
                 },
                 elevation: 5.0,
@@ -112,7 +114,7 @@ class _HostMapState extends State<HostMap> {
         });
   }
 
-  addMarker(LatLng pos, String name, int price){
+  _addMarker(LatLng pos, String name, int price){
     setState(() {
       FirebaseFirestore.instance.collection('Location').add(
           {
@@ -157,8 +159,7 @@ class _HostMapState extends State<HostMap> {
           );
         });
     setState(() { });
-    print("ciaooommmmmmmmmmmmmmmmmm");
-    print(markers);
+
   }
 
 }
