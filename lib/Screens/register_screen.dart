@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,9 +31,18 @@ class Register extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                onPressed: () async{
-                  await authService.createUserWithEmailAndPassword(emailController.text, passwordController.text);
-                  Navigator.pop(context);
+            onPressed: () async {
+              authService
+                  .createUserWithEmailAndPassword(
+                      emailController.text, passwordController.text)
+                  .then((usr) => {
+                        FirebaseFirestore.instance.collection('User').add({
+                          "username": usr!.email!.substring(0,usr.email!.indexOf('@')),
+                          "email": usr.email,
+                        })
+                      });
+
+              Navigator.pop(context);
                   },
                 child: Text("Register")),
 

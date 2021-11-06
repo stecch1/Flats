@@ -1,9 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flats/Screens/chat.dart';
+import 'package:flats/Screens/Chat/chat_home.dart';
 import 'package:flats/Screens/home_view.dart';
-import 'package:flats/Screens/host.dart';
+import 'package:flats/Screens/Host/host.dart';
 import 'package:flats/Screens/menu.dart';
-import 'package:flats/Screens/social.dart';
+import 'package:flats/Screens/Social/social.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flats/Theme/theme.dart';
 import 'package:flats/Utils/wrapper.dart';
@@ -45,7 +45,7 @@ class _MyHomeState extends State<MyHome> {
 
     //Wrapper manages the login screen, if usr is not logged, login-screen is returnet, else the specific widget
     Wrapper(widget: SocialScreen()),
-    Wrapper(widget: ChatScreen()),
+    Wrapper(widget: ChatHome()),
     Wrapper(widget: HostScreen()),
   ];
 

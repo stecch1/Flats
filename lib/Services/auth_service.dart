@@ -1,6 +1,7 @@
 //credits to: ZeroToUnicorn
 import 'package:firebase_auth/firebase_auth.dart' as auth;
 import 'package:flats/Models/user_model.dart';
+
 class AuthService{
   final auth.FirebaseAuth _firebaseAuth = auth.FirebaseAuth.instance;
 

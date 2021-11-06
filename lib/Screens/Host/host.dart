@@ -1,5 +1,5 @@
 import 'package:flats/Models/user_model.dart';
-import 'package:flats/Screens/host_map.dart';
+import 'package:flats/Screens/Host/host_map.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
