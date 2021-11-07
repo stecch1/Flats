@@ -54,7 +54,7 @@ class _HostMapState extends State<HostMap> {
                   title: document['name'],
                   snippet: document['price'].toString(),
                 ),
-                onTap: () => _onMarkerPressed(document.id),
+                onTap: () => _onMarkerPressed(document),
               ));
             } else {
               print('document does not exist');
@@ -67,10 +67,10 @@ class _HostMapState extends State<HostMap> {
             body: GoogleMap(
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
-              initialCameraPosition: CameraPosition(
+              initialCameraPosition: const CameraPosition(
                 target: LatLng(45.478436, 9.226619), zoom: 11.5,),
               markers: markers,
-              onLongPress: _addMarkerDialog,
+
             ),
           );
 
@@ -79,64 +79,14 @@ class _HostMapState extends State<HostMap> {
     );
   }
 
-  _addMarkerDialog(LatLng pos) {
-    return showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text("Add a new flat"),
-            content: Column(
-              children: [
-                Text("name"),
-                TextField(
-                  controller: controller1,
-                ),
-                Text("price"),
-                TextField(
-                  controller: controller2,
-                )
-              ],
-            ),
-            actions: [
-              MaterialButton(
-                onPressed: () {
-                  _addMarker(pos, controller1.text,
-                      int.tryParse(controller2.text) ?? 0);
-                  controller1.clear();
-                  controller2.clear();
-                  Navigator.pop(context);
-                },
-                elevation: 5.0,
-                child: Text("Submit"),
-              ),
-            ],
-          );
-        });
-  }
-
-  _addMarker(LatLng pos, String name, int price){
-    setState(() {
-      FirebaseFirestore.instance.collection('Location').add(
-          {
-            "uid": widget.uid,
-            "location": GeoPoint(pos.latitude, pos.longitude),
-            "name": name,
-            "price":price,
-          }
-      );
-
-    });
-
-  }
-
-  _onMarkerPressed(String documentID) async {
+  _onMarkerPressed(dynamic document) async {
     await showModalBottomSheet(
         context: context,
         builder: (context) {
           return Column(
             children: [
               Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -144,17 +94,24 @@ class _HostMapState extends State<HostMap> {
                       onPressed: () {
                         FirebaseFirestore.instance
                             .collection("Location")
-                            .doc(documentID)
+                            .doc(document.id)
                             .delete();
-                        markers.removeWhere((element) => element.markerId.value == documentID);
+                        markers.removeWhere((element) => element.markerId.value == document.id);
                       },
                       color: Colors.red,
                       textColor: Colors.white,
-                      child: Text("Delete"),
+                      child: const Text("Delete"),
                     ),
                   ],
                 ),
-              )
+              ),
+              //TODO: add margin to these rows below
+              Row(
+                children: [Text("flat's name: " + document['name'] )],
+
+              ),
+              Row(children: [Text("euro/month: " + document['price'].toString() )],),
+              Row(children: [Expanded(child: Text("description: " + document['description'] ))],),
             ],
           );
         });

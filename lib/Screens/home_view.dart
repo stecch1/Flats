@@ -28,7 +28,7 @@ class _HomeViewState extends State<HomeView> {
               var latLng = LatLng(location.latitude, location.longitude);
               markers.add(Marker(markerId: MarkerId(document.id),
                   position: latLng,
-                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()),
+                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()+' €/month'),
                   onTap: () => _onMarkerPressed(document.id),
               ));
 

@@ -109,6 +109,7 @@ class _locationScreenState extends State<locationScreen> {
                           "location": GeoPoint(finalCoordinate.latitude, finalCoordinate.longitude),
                           "name": property_passed.name,
                           "price":property_passed.price,
+                          "description":property_passed.description,
                         }
                     );
 
