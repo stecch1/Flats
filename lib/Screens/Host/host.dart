@@ -4,6 +4,8 @@ import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'host_add.dart';
+
 
 class HostScreen extends StatefulWidget {
   const HostScreen({Key? key}) : super(key: key);
@@ -40,6 +42,13 @@ class _HostScreenState extends State<HostScreen> {
                           MaterialPageRoute(builder: (context) => HostMap(uid: snapshot.data!.uid)));
                     },
                     child: Text("my flats"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => HostAdd(uid: snapshot.data!.uid)));
+                    },
+                    child: const Text("add new flat"),
                   ),
                 ],
 

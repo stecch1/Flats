@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,9 +7,11 @@ import 'package:flats/Screens/Host/host_add.dart';
 
 
 class locationScreen extends StatefulWidget {
-  property property_passed;  
-  locationScreen(this.property_passed,{Key? key}) : super(key: key);
-    
+
+  locationScreen(String this.uid, property this.property_passed,{Key? key}) : super(key: key);
+
+  property property_passed;
+  String uid;
 
   @override
   _locationScreenState createState() => _locationScreenState(property_passed);
@@ -37,14 +40,14 @@ class _locationScreenState extends State<locationScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-            Padding(
+            const Padding(
              padding: EdgeInsetsDirectional.fromSTEB(10, 0, 20, 0),
               child: Text(
                 'Is this the correct location\nof your property?',
                 style: TextStyle(fontSize: 30),
                 ),
               ),
-            Padding(
+            const Padding(
              padding: EdgeInsetsDirectional.fromSTEB(20, 20, 120, 20),
               child: Text(
                 'if not adjust the marker on the map',
@@ -52,7 +55,7 @@ class _locationScreenState extends State<locationScreen> {
               ),
             ),
              Padding(
-             padding: EdgeInsetsDirectional.fromSTEB(5, 20, 5, 5),
+             padding: const EdgeInsetsDirectional.fromSTEB(5, 20, 5, 5),
               child: Container(
                 width: 350,
                 height: 250,
@@ -95,12 +98,24 @@ class _locationScreenState extends State<locationScreen> {
                ),
               ),
             Padding(
-             padding: EdgeInsetsDirectional.fromSTEB(250, 75, 5, 0),
+             padding: const EdgeInsetsDirectional.fromSTEB(250, 75, 5, 0),
               child: ElevatedButton(
                 onPressed: () {
                   /* we have property_passed.name , property_passed.price and finalCoordinate*/
+                  setState(() {
+                    FirebaseFirestore.instance.collection('Location').add(
+                        {
+                          "uid": widget.uid,
+                          "location": GeoPoint(finalCoordinate.latitude, finalCoordinate.longitude),
+                          "name": property_passed.name,
+                          "price":property_passed.price,
+                        }
+                    );
+
+                  });
+                  Navigator.pop(context);
                 },
-                child: Text('Confirm'),
+                child: const Text('Confirm'),
                 ),
               ),    
           ],
