@@ -1,8 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as pt;
 import 'package:provider/provider.dart';
+
 
 class HostMap extends StatefulWidget {
   HostMap({Key? key, required String this.uid}) : super(key: key);
@@ -20,6 +27,7 @@ class _HostMapState extends State<HostMap> {
   Set<Marker> markers = Set();
   TextEditingController controller1 = TextEditingController ();
   TextEditingController controller2 = TextEditingController ();
+  File? img;
 
 
   @override
@@ -54,7 +62,7 @@ class _HostMapState extends State<HostMap> {
                   title: document['name'],
                   snippet: document['price'].toString(),
                 ),
-                onTap: () => _onMarkerPressed(document),
+                onTap: () => {_onMarkerPressed(document)},
               ));
             } else {
               print('document does not exist');
@@ -80,43 +88,134 @@ class _HostMapState extends State<HostMap> {
   }
 
   _onMarkerPressed(dynamic document) async {
+    Map<String, dynamic> map = document.data();
     await showModalBottomSheet(
         context: context,
-        builder: (context) {
-          return Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.all(5),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
+        builder: (BuildContext context) {
+
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter mystate){
+              String src = "";
+
+            return Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {
+                          FirebaseFirestore.instance
+                              .collection("Location")
+                              .doc(document.id)
+                              .delete();
+                          markers.removeWhere((element) => element.markerId.value == document.id);
+                        },
+                        color: Colors.red,
+                        textColor: Colors.white,
+                        child: const Text("Delete"),
+                      ),
+                    ],
+                  ),
+                ),
+                //TODO: add margin to these rows below
+                Row(
+                  children: [Text("flat's name: " + document['name'])],
+                ),
+                Row(
+                  children: [Text("euro/month: " + document['price'].toString())],
+                ),
+                Row(
                   children: [
-                    MaterialButton(
-                      onPressed: () {
-                        FirebaseFirestore.instance
-                            .collection("Location")
-                            .doc(document.id)
-                            .delete();
-                        markers.removeWhere((element) => element.markerId.value == document.id);
-                      },
-                      color: Colors.red,
-                      textColor: Colors.white,
-                      child: const Text("Delete"),
-                    ),
+                    Expanded(
+                        child: Text("description: " + document['description']))
                   ],
                 ),
-              ),
-              //TODO: add margin to these rows below
-              Row(
-                children: [Text("flat's name: " + document['name'] )],
+                map.containsKey("urls") == true ? Image.network(document["urls"][0],
+                width: 400,
+                height: 140,) : Container(),
 
-              ),
-              Row(children: [Text("euro/month: " + document['price'].toString() )],),
-              Row(children: [Expanded(child: Text("description: " + document['description'] ))],),
-            ],
-          );
-        });
-    setState(() { });
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        ElevatedButton(
+                            onPressed: () {
+                              _pickImage().then((value) => mystate(() {}));
+                            },
+                            child: const Text("+ add photo")),
+
+                        ElevatedButton(
+                            onPressed: () {
+                              _uploadImage(document).then((value) => {
+                                    setState(() {
+                                      mystate(() {
+                                        Navigator.pop(context);
+                                        Navigator.pop(context);
+                                      });
+                                    })
+                                  });
+                            },
+                            child: const Text("Upload photo")),
+                      ],
+                    ),
+                    Text(img != null ? img.toString() : ""),
+                  ],
+                ),
+
+
+              ],
+            );
+          });
+        }).whenComplete(() => img = null);
+    setState(() {});
+  }
+
+  Future _pickImage() async{
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+      if(image == null) return;
+      final imagePath =  File(image.path);
+
+      this.img = imagePath;
+
+
+    } on PlatformException catch (e) {
+      print("Failed to pick image $e");
+    }
 
   }
+
+  Future _uploadImage(dynamic document) async{
+    if (img == null) return;
+    String id = document.id.toString();
+    String name = pt.basename(img!.path);
+    final destination = 'images/'+id+"/"+name;
+    firebase_storage.FirebaseStorage storage =
+        firebase_storage.FirebaseStorage.instance;
+
+    try {
+      await storage
+          .ref(destination)
+          .putFile(img!).whenComplete(() => storage.ref(destination).getDownloadURL().then((value) =>
+          FirebaseFirestore.instance.collection('Location').doc(document.id).update(
+              {
+                "urls" : FieldValue.arrayUnion([value]),
+              }
+          )
+
+      ));
+
+    } on firebase_storage.FirebaseException catch (e) {
+      print(e);
+    }
+
+
+
+
+  }
+
 
 }

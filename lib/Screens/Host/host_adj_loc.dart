@@ -110,6 +110,7 @@ class _locationScreenState extends State<locationScreen> {
                           "name": property_passed.name,
                           "price":property_passed.price,
                           "description":property_passed.description,
+
                         }
                     );
 
