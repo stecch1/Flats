@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:flats/Services/auth_service.dart';
+import 'package:flats/Utils/image_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -132,9 +133,10 @@ class _HostMapState extends State<HostMap> {
                         child: Text("description: " + document['description']))
                   ],
                 ),
-                map.containsKey("urls") == true ? Image.network(document["urls"][0],
-                width: 400,
-                height: 140,) : Container(),
+                map.containsKey("urls") == true ?
+                    ImageView(map: map,)
+
+                    : Container(),
 
                 Column(
                   children: [
@@ -211,8 +213,6 @@ class _HostMapState extends State<HostMap> {
     } on firebase_storage.FirebaseException catch (e) {
       print(e);
     }
-
-
 
 
   }
