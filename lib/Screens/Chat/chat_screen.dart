@@ -1,18 +1,137 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Services/database_service.dart';
 import 'package:flutter/material.dart';
+import 'package:random_string/random_string.dart';
+
 
 
 class ChatScreen extends StatefulWidget {
   final String email;
-  ChatScreen(this.email);
+  final String myEmail;
+  ChatScreen(this.email, this.myEmail);
   @override
   _ChatScreenState createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatScreen> {
 
-  TextEditingController messageTextEdittingController = TextEditingController();
+  String chatRoomId="";
+  String messageId = "";
+  Stream? messageStream;
+  String? myName, myUserName;
+  String myProfilePic="https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
+  TextEditingController messageTextEditingController = TextEditingController();
 
+  getChatRoomIdByUsernames(String a, String b) {
+    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
+      return "$b\_$a";
+    } else {
+      return "$a\_$b";
+    }
+  }
+  addMessage(bool sendClicked) {
+    if (messageTextEditingController.text != "") {
+      String message = messageTextEditingController.text;
+
+      var lastMessageTs = DateTime.now();
+
+      Map<String, dynamic> messageInfoMap = {
+        "message": message,
+        "sendBy": widget.myEmail,
+        "ts": lastMessageTs,
+        "imgUrl": myProfilePic
+      };
+
+      //messageId
+      if (messageId == "") {
+        messageId = randomAlphaNumeric(12);
+      }
+
+      DatabaseService()
+          .addMessage(chatRoomId, messageId, messageInfoMap)
+          .then((value) {
+        Map<String, dynamic> lastMessageInfoMap = {
+          "lastMessage": message,
+          "lastMessageSendTs": lastMessageTs,
+          "lastMessageSendBy": widget.myEmail
+        };
+
+        DatabaseService().updateLastMessageSend(chatRoomId, lastMessageInfoMap);
+
+        if (sendClicked) {
+          // remove the text in the message input field
+          messageTextEditingController.text = "";
+          // make message id blank to get regenerated on next message send
+          messageId = "";
+        }
+      });
+    }
+  }
+
+  Widget chatMessageTile(String message, bool sendByMe) {
+    return Row(
+      mainAxisAlignment:
+      sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
+      children: [
+        Flexible(
+          child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(24),
+                  bottomRight:
+                  sendByMe ? const Radius.circular(0) : Radius.circular(24),
+                  topRight: const Radius.circular(24),
+                  bottomLeft:
+                  sendByMe ? const Radius.circular(24) : Radius.circular(0),
+                ),
+                color: sendByMe ? Colors.blue : Colors.grey,
+              ),
+              padding: const EdgeInsets.all(16),
+              child: Text(
+                message,
+                style: TextStyle(color: Colors.white),
+              )),
+        ),
+      ],
+    );
+  }
+
+  Widget chatMessages() {
+    return StreamBuilder(
+      stream: messageStream,
+      builder: (context, AsyncSnapshot snapshot) {
+        return snapshot.hasData
+            ? ListView.builder(
+            padding: const EdgeInsets.only(bottom: 70, top: 16),
+            itemCount: snapshot.data.docs.length,
+            reverse: true,
+            itemBuilder: (context, index) {
+              DocumentSnapshot ds = snapshot.data.docs[index];
+              return chatMessageTile(
+                  ds["message"], widget.myEmail == ds["sendBy"]);
+            })
+            : const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  getAndSetMessages() async {
+    messageStream = await DatabaseService().getChatRoomMessages(chatRoomId);
+    setState(() {});
+  }
+
+  doThisOnLaunch() async {
+
+    chatRoomId = getChatRoomIdByUsernames(widget.email, widget.myEmail);
+    getAndSetMessages();
+  }
+
+  @override
+  void initState() {
+    doThisOnLaunch();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +141,7 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Container(
         child: Stack(
           children: [
-            //chatMessages(),
+            chatMessages(),
             Container(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -32,11 +151,11 @@ class _ChatScreenState extends State<ChatScreen> {
                   children: [
                     Expanded(
                         child: TextField(
-                          controller: messageTextEdittingController,
+                          controller: messageTextEditingController,
                           onChanged: (value) {
-                            //addMessage(false);
+                            addMessage(false);
                           },
-                          style: TextStyle(color: Colors.white),
+                          style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                               border: InputBorder.none,
                               hintText: "type a message",
@@ -45,9 +164,9 @@ class _ChatScreenState extends State<ChatScreen> {
                         )),
                     GestureDetector(
                       onTap: () {
-                        //addMessage(true);
+                        addMessage(true);
                       },
-                      child: Icon(
+                      child: const Icon(
                         Icons.send,
                         color: Colors.white,
                       ),

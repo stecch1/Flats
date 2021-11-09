@@ -37,6 +37,33 @@ class DatabaseService {
         .where("emails", arrayContains: myEmail)
         .snapshots();
   }
+  Future addMessage(
+      String chatRoomId, String messageId, Map<String, dynamic> messageInfoMap) async {
+    return FirebaseFirestore.instance
+        .collection("ChatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .doc(messageId)
+        .set(messageInfoMap);
+  }
+  updateLastMessageSend(String chatRoomId, Map<String, dynamic> lastMessageInfoMap) {
+    return FirebaseFirestore.instance
+        .collection("ChatRoom")
+        .doc(chatRoomId)
+        .update(lastMessageInfoMap);
+  }
+
+  Future<Stream<QuerySnapshot>> getChatRoomMessages(chatRoomId) async {
+    return FirebaseFirestore.instance
+        .collection("ChatRoom")
+        .doc(chatRoomId)
+        .collection("chats")
+        .orderBy("ts", descending: true)
+        .snapshots();
+  }
+
+
+
 
 }
 
