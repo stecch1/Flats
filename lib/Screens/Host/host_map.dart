@@ -84,6 +84,7 @@ class _HostMapState extends State<HostMap> {
 
   _onMarkerPressed(dynamic document) async {
     Map<String, dynamic> map = document.data();
+    //TODO: if smartphone, showModalBottomSheet, else (tablet/pc) showDialog (e dovremo creare uno showDialog personalizzato, vorrei fare tipo un quadrato arrotondato in alto a dx)
     await showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {

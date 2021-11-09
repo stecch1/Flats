@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseService {
 
-  Future<Stream<QuerySnapshot>> getUserByUserName(String username) async {
+  Future<Stream<QuerySnapshot>> getUserByEmail(String email) async {
     return FirebaseFirestore.instance
         .collection("User")
-        .where("username", isGreaterThanOrEqualTo: username)
-        .where("username", isLessThan: username + 'z')
+        .where("email", isGreaterThanOrEqualTo: email)
+        .where("email", isLessThan: email + 'z')
         .snapshots();
   }
 

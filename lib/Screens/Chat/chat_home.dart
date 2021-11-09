@@ -21,7 +21,7 @@ class _ChatHomeState extends State<ChatHome> {
     isSearching = true;
     setState(() {});
     usersStream = await DatabaseService()
-        .getUserByUserName(searchUsernameEditingController.text);
+        .getUserByEmail(searchUsernameEditingController.text);
 
     setState(() {});
   }

@@ -46,7 +46,7 @@ class _HostScreenState extends State<HostScreen> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => HostAdd(uid: snapshot.data!.uid)));
+                          MaterialPageRoute(builder: (context) => HostAdd(uid: snapshot.data!.uid, hostMail: snapshot.data!.email!,)));
                     },
                     child: const Text("add new flat"),
                   ),

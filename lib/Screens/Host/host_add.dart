@@ -10,14 +10,16 @@ class property {
   String description = '';
   int price = 0;
   LatLng coordinate;
+  String hostMail;
 
-  property(this.name,this.description, this.price, this.coordinate);
+  property(this.name,this.description, this.price, this.coordinate, this.hostMail);
 }
 
 class HostAdd extends StatefulWidget {
-  HostAdd({Key? key, required this.uid}) : super(key: key);
+  HostAdd({Key? key, required this.uid, required this.hostMail}) : super(key: key);
 
   String uid;
+  String hostMail;
 
   @override
   _HostAddstate createState() => _HostAddstate();
@@ -174,7 +176,7 @@ class _HostAddstate extends State<HostAdd> {
               child: ElevatedButton(
                 onPressed: () {
                   property property_prov = property(flatNameController.text,descriptionController.text,
-                      int.parse(priceController.text), coordinate);
+                      int.parse(priceController.text), coordinate, widget.hostMail);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
