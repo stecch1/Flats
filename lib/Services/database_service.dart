@@ -10,6 +10,13 @@ class DatabaseService {
         .snapshots();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserDocumentByEmail(String email) async {
+
+    return await FirebaseFirestore.instance.collection('User')
+        .where('email', isEqualTo: email)
+        .get();
+  }
+
   createChatRoom(String chatRoomId, Map<String, dynamic> chatRoomInfoMap) async {
     final snapShot = await FirebaseFirestore.instance
         .collection("ChatRoom")

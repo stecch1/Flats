@@ -1,5 +1,6 @@
 import 'package:flats/Models/user_model.dart';
 import 'package:flats/Screens/Host/host_map.dart';
+import 'package:flats/Screens/Host/profile_pic.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,17 +32,19 @@ class _HostScreenState extends State<HostScreen> {
           return Scaffold(
 
             body: Container(
+              margin: EdgeInsets.all(20),
               alignment: Alignment.center,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
+                  ProfilePic(email: snapshot.data!.email!,),
                   Container(child:Text("User email: "+ snapshot.data!.email!),),
                   ElevatedButton(
                     onPressed: () {
                       Navigator.push(context,
                           MaterialPageRoute(builder: (context) => HostMap(uid: snapshot.data!.uid)));
                     },
-                    child: Text("my flats"),
+                    child: const Text("my flats"),
                   ),
                   ElevatedButton(
                     onPressed: () {

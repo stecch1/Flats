@@ -75,7 +75,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                 builder: (context) => ChatScreen(email, widget.myEmail)));
       },
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8),
+        margin: const EdgeInsets.symmetric(vertical: 8),
         child: Row(
           children: [
             ClipRRect(
@@ -86,7 +86,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                 width: 40,
               ),
             ),
-            SizedBox(width: 12),
+            const SizedBox(width: 12),
             Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [Text(email)])
@@ -111,11 +111,11 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                 email: ds["email"],
 
             );
-          },
-        )
-            : Center(
-          child: CircularProgressIndicator(),
-        );
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              );
       },
     );
   }
@@ -148,7 +148,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                     searchUsernameEditingController.text = "";
                     setState(() {});
                   },
-                  child: Padding(
+                  child: const Padding(
                       padding: EdgeInsets.only(right: 12),
                       child: Icon(Icons.arrow_back)),
                 )
@@ -168,7 +168,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                         Expanded(
                             child: TextField(
                               controller: searchUsernameEditingController,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                   border: InputBorder.none, hintText: "username"),
                             )),
                         GestureDetector(
@@ -177,7 +177,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                                 onSearchBtnClick();
                               }
                             },
-                            child: Icon(Icons.search))
+                            child: const Icon(Icons.search))
                       ],
                     ),
                   ),

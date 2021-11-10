@@ -19,7 +19,7 @@ class _ChatScreenState extends State<ChatScreen> {
   String messageId = "";
   Stream? messageStream;
   String? myName, myUserName;
-  String myProfilePic="https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
+  //String myProfilePic="https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
   TextEditingController messageTextEditingController = TextEditingController();
 
   getChatRoomIdByUsernames(String a, String b) {
@@ -39,7 +39,7 @@ class _ChatScreenState extends State<ChatScreen> {
         "message": message,
         "sendBy": widget.myEmail,
         "ts": lastMessageTs,
-        "imgUrl": myProfilePic
+        //"imgUrl": myProfilePic
       };
 
       //messageId

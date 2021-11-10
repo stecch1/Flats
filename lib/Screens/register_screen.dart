@@ -40,6 +40,7 @@ class Register extends StatelessWidget {
                         FirebaseFirestore.instance.collection('User').add({
                           "username": usr!.email!.substring(0,usr.email!.indexOf('@')),
                           "email": usr.email,
+                          "pic_url": "https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107",
                         })
                       });
 
