@@ -29,7 +29,7 @@ class _ChatScreenState extends State<ChatScreen> {
       return "$a\_$b";
     }
   }
-  addMessage(bool sendClicked) {
+  addMessage() {
     if (messageTextEditingController.text != "") {
       String message = messageTextEditingController.text;
 
@@ -58,12 +58,12 @@ class _ChatScreenState extends State<ChatScreen> {
 
         DatabaseService().updateLastMessageSend(chatRoomId, lastMessageInfoMap);
 
-        if (sendClicked) {
-          // remove the text in the message input field
-          messageTextEditingController.text = "";
-          // make message id blank to get regenerated on next message send
-          messageId = "";
-        }
+
+        // remove the text in the message input field
+        messageTextEditingController.text = "";
+        // make message id blank to get regenerated on next message send
+        messageId = "";
+
       });
     }
   }
@@ -152,9 +152,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     Expanded(
                         child: TextField(
                           controller: messageTextEditingController,
-                          onChanged: (value) {
-                            addMessage(false);
-                          },
+
                           style: const TextStyle(color: Colors.white),
                           decoration: InputDecoration(
                               border: InputBorder.none,
@@ -164,7 +162,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         )),
                     GestureDetector(
                       onTap: () {
-                        addMessage(true);
+                        addMessage();
                       },
                       child: const Icon(
                         Icons.send,
