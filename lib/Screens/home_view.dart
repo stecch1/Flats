@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -10,6 +11,24 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   Set<Marker> markers = Set();
+  late BitmapDescriptor customIcon;
+
+  @override
+  void initState(){
+    getIcons();
+    super.initState();
+  }
+
+
+getIcons() async{
+  var icon = await BitmapDescriptor.fromAssetImage(
+    ImageConfiguration(devicePixelRatio: 3.0),
+    "assets/images/marker.png"    
+  );
+  setState(() {
+    this.customIcon= icon;
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +49,7 @@ class _HomeViewState extends State<HomeView> {
                   position: latLng,
                   infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()+' €/month'),
                   onTap: () => _onMarkerPressed(document.id),
+                  icon: customIcon,
               ));
 
             }
