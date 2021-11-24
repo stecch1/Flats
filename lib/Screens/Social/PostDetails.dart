@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Screens/Social/flat_details.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 
@@ -30,7 +31,8 @@ class _PostDetailsState extends State<PostDetails> {
           children:<Widget>[
             new Container(
               padding: EdgeInsets.all(10.0),
-              child: Row(
+              child: Column(
+                children: [Row(
                 children: <Widget>[
 
                   new CircleAvatar(
@@ -45,10 +47,11 @@ class _PostDetailsState extends State<PostDetails> {
                   new Text(widget.data['title'],
                     style: TextStyle(fontSize: 22.0, )
                   ),
+                ]
+                ),
+                new SizedBox(height: 7.0,),
 
-                  new SizedBox(height: 7.0,),
-
-                  new Container(
+                new Container(
                     margin:EdgeInsets.all(1.0),
                     child: Text(widget.data['content'],
                       style: TextStyle(fontSize: 18.0, ),
@@ -57,9 +60,18 @@ class _PostDetailsState extends State<PostDetails> {
                       )
                   ),
 
-
-
-
+                new Container(
+                    margin:EdgeInsets.all(1.0),
+                    child: Text(widget.data['userMail'],
+                      style: TextStyle(fontSize: 9.0, ),
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
+                      )
+                  ),
+                ElevatedButton(onPressed: (){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => flatDetails(widget.data['flatId'])));
+          }, child: Text("See Flats")),
 
 
                 ],

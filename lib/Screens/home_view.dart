@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
+import 'package:flats/Screens/Social/create_post.dart';
+
 
 class HomeView extends StatefulWidget {
   @override
@@ -48,7 +50,7 @@ getIcons() async{
               markers.add(Marker(markerId: MarkerId(document.id),
                   position: latLng,
                   infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()+' €/month'),
-                  onTap: () => _onMarkerPressed(document.id),
+                  onTap: () => _onMarkerPressed(document),
                   icon: customIcon,
               ));
 
@@ -71,13 +73,16 @@ getIcons() async{
     );
   }
 
-  _onMarkerPressed(String documentID) async {
+  _onMarkerPressed(dynamic document) async {
     await showModalBottomSheet(
         context: context,
         builder: (context) {
           return Column(
             children: [
-
+                ElevatedButton(onPressed: (){
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreatePost(document)));
+          }, child: Text("Create Post")),
             ],
           );
         });

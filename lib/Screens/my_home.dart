@@ -101,7 +101,7 @@ class _MyHomeState extends State<MyHome> {
             ],
             currentIndex: _selectedIndex,
             backgroundColor: Colors.black,
-            selectedItemColor: Colors.amber[800],
+            selectedItemColor: Colors.amber,
             onTap: _onItemTapped,
           ),
         ),
