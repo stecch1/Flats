@@ -1,7 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Screens/Chat/chat_home.dart';
+import 'package:flats/Screens/Chat/chat_screen.dart';
 import 'package:flats/Screens/Social/flat_details.dart';
+import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:path/path.dart';
+import 'package:flats/Models/user_model.dart';
 
 
 
@@ -17,6 +22,12 @@ class PostDetails extends StatefulWidget {
 class _PostDetailsState extends State<PostDetails> {
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
+    return StreamBuilder<User?>(
+      stream: authService.user,
+      builder:(_, AsyncSnapshot<User?> snapshot){
+        if(snapshot.connectionState == ConnectionState.active){
+          final User? user = snapshot.data;
     return new Scaffold(
 
       appBar: new AppBar(
@@ -73,6 +84,12 @@ class _PostDetailsState extends State<PostDetails> {
                 MaterialPageRoute(builder: (context) => flatDetails(widget.data['flatId'])));
           }, child: Text("See Flats")),
 
+          ElevatedButton(onPressed: (){
+              Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ChatScreen(widget.data['userMail'], user!.email!)));
+
+          },child: Text("write a message")),
+
 
                 ],
               ),
@@ -80,8 +97,15 @@ class _PostDetailsState extends State<PostDetails> {
           ],
         ),
         
-      ),
-
-    );
+      ));
+        }else{
+          return const Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+      }
+      );
   }
 }
