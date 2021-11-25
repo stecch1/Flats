@@ -61,11 +61,13 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
           "emails": [widget.myEmail, email],
           "lastMessage": " ",
         };
-        DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatScreen(email, widget.myEmail)));
+        if (widget.myEmail != email) {
+          DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatScreen(email, widget.myEmail)));
+        }else{print("you cannot chat with yourself!!");}
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),

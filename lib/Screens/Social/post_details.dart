@@ -66,13 +66,12 @@ class _PostDetailsState extends State<PostDetails> {
 
                  Container(
                      margin:EdgeInsets.all(10.0),
-                     child: Flexible(
+
                        child: Text(widget.data['content'],
                          style: TextStyle(fontSize: 18.0, ),
                          textAlign: TextAlign.justify,
 
-                       ),
-                     )
+                     ),
                  ),
 
 
@@ -93,12 +92,14 @@ class _PostDetailsState extends State<PostDetails> {
 
             var chatRoomId = getChatRoomIdByUsernames(user!.email!, widget.data['userMail'] );
             Map<String, dynamic> chatRoomInfoMap = {
-              "emails": [user!.email! , widget.data['userMail']],
+              "emails": [user.email! , widget.data['userMail']],
               "lastMessage": " ",
             };
-            DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
-              Navigator.push(context,
-                MaterialPageRoute(builder: (context) => ChatScreen(widget.data['userMail'], user!.email!)));
+            if (user.email! != widget.data['userMail']) {
+              DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
+                Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ChatScreen(widget.data['userMail'], user.email!)));
+            }else{print("you cannot chat with yourself");}
 
           },child: Text("write a message")),
 
