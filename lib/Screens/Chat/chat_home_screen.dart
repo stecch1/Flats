@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/Chat/chat_screen.dart';
 import 'package:flats/Screens/Chat/chatroom_list_tile.dart';
 import 'package:flats/Services/database_service.dart';
+import 'package:flats/Utils/get_chatroom_id_function.dart';
 import 'package:flutter/material.dart';
 
 
@@ -24,14 +25,6 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
   TextEditingController();
 
 
-
-  getChatRoomIdByUsernames(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
-  }
 
   onSearchBtnClick() async {
     isSearching = true;

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Services/database_service.dart';
+import 'package:flats/Utils/get_chatroom_id_function.dart';
 import 'package:flutter/material.dart';
 import 'package:random_string/random_string.dart';
 
@@ -22,13 +23,7 @@ class _ChatScreenState extends State<ChatScreen> {
   //String myProfilePic="https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
   TextEditingController messageTextEditingController = TextEditingController();
 
-  getChatRoomIdByUsernames(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
-  }
+
   addMessage() {
     if (messageTextEditingController.text != "") {
       String message = messageTextEditingController.text;

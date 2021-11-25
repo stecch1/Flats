@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:path/path.dart';
-import 'PostDetails.dart';
+import 'post_details.dart';
 
 
 class SocialScreen extends StatefulWidget {
@@ -37,66 +37,65 @@ class _SocialScreenState extends State<SocialScreen> {
         }
 
         
-    return Container(
-       child: new ListView(
-         children: snapshot.data!.docs.map((DocumentSnapshot document) {
-          Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-           return new Card(
-             shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.black, width: 1),
-              borderRadius: BorderRadius.circular(5),
-             ),
-             elevation: 0.0,
-             margin: EdgeInsets.all(10.0),
+    return ListView(
+      children: snapshot.data!.docs.map((DocumentSnapshot document) {
+       Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
+        return Card(
+          shape: RoundedRectangleBorder(
+           side: const BorderSide(color: Colors.black, width: 1),
+           borderRadius: BorderRadius.circular(5),
+          ),
+          elevation: 0.0,
+          margin: EdgeInsets.all(10.0),
 
-             child: new Container(
-               padding: EdgeInsets.all(10.0),
-               child: new Row(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 children:<Widget> [
-                   new CircleAvatar(
-                     child: new Text(
-                      data['title'][0]),
-                      backgroundColor: Colors.amber,
-                      foregroundColor: Colors.black
-                  ),
-                   new Container(
-                     width: 210.0,
-                     child: new Column(
-                       crossAxisAlignment: CrossAxisAlignment.start,
-                       children:<Widget> [
-                         new InkWell(
-                           child: new Text(
-                             data['title'],
-                             style: const TextStyle(
-                               fontSize: 22.0,
-                               color: Colors.black,
-                             ),
-                             maxLines: 1,
-                             
-                           ),
-                           onTap: (){
-                             passData(data);
-                           }
-                         ),
-                         new SizedBox(height: 5.0,),
-
-                         new Text(
-                           data['content'],
-                           style: TextStyle(fontSize: 14),
-                           maxLines: 2,
-                         )
-                       ],
-                     ),
-
-                   )
-                 ],
+          child: Container(
+            padding: EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children:<Widget> [
+                 Container(
+                   margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
+                   child: const CircleAvatar(
+                     backgroundColor: Colors.amber,
+                     foregroundColor: Colors.black
                ),
-             )
-           );
-    
+                 ),
+                 Flexible(
+
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children:<Widget> [
+                       InkWell(
+                        child: new Text(
+                          data['title'],
+                          style: const TextStyle(
+                            fontSize: 22.0,
+                            color: Colors.black,
+                          ),
+                          maxLines: 1,
+
+                        ),
+                        onTap: (){
+                          passData(data);
+                        }
+                      ),
+                      SizedBox(height: 5.0,),
+
+                      Text(
+                        data['content'],
+                        style: TextStyle(fontSize: 14),
+                        maxLines: 2,
+                      )
+                    ],
+                  ),
+
+                )
+              ],
+            ),
+          )
+        );
+
       }).toList(),
-    )
     );
       },
     );

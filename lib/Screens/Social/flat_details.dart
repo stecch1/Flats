@@ -34,7 +34,7 @@ class _flatDetailsState extends State<flatDetails> {
 getIcons() async{
   var icon = await BitmapDescriptor.fromAssetImage(
     ImageConfiguration(devicePixelRatio: 3.0),
-    "assets/images/marker.png"    
+    "assets/images/marker.png"
   );
   setState(() {
     this.customIcon= icon;
@@ -66,11 +66,12 @@ getIcons() async{
                   icon: customIcon,
               ));
           return Scaffold(
-            appBar: new AppBar(
-        title: new Text("Flat Details"),
+            appBar: AppBar(
+        title: Text("Flat Details"),
         backgroundColor: Colors.amber
       ),
-              body: Column(
+              body: ListView(
+                shrinkWrap: true,
           /*mainAxisSize: MainAxisSize.max,*/
           children: <Widget>[
             Row(
@@ -97,7 +98,7 @@ getIcons() async{
                 },
                 options: CarouselOptions(
                   height: 200,
-                  
+
                   initialPage: 0,
                   enableInfiniteScroll: true,
                   reverse: false,
@@ -128,7 +129,7 @@ getIcons() async{
                 ),
             Divider(
               thickness: 5,
-            ),    
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -174,7 +175,7 @@ getIcons() async{
                     width: 2,
                   ),
                 ),
-                child: 
+                child:
                     GoogleMap(
                       initialCameraPosition: CameraPosition(
                         target: latLng,
@@ -186,7 +187,7 @@ getIcons() async{
             )
           ],
         ),
-      
+
           );
           }
       )
