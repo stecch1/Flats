@@ -53,7 +53,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
     );
   }
 
-  Widget searchListUserTile({email}) {
+  Widget searchListUserTile({email, pic_url}) {
     return GestureDetector(
       onTap: () {
         var chatRoomId = getChatRoomIdByUsernames(widget.myEmail, email);
@@ -76,7 +76,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
             ClipRRect(
               borderRadius: BorderRadius.circular(40),
               child: Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107",
+                pic_url,
                 height: 40,
                 width: 40,
               ),
@@ -104,6 +104,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
             return searchListUserTile(
 
                 email: ds["email"],
+                pic_url: ds["pic_url"],
 
             );
                 },

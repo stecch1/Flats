@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/Chat/chat_screen.dart';
+import 'package:flats/Services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class ChatRoomListTile extends StatefulWidget {
@@ -10,11 +12,14 @@ class ChatRoomListTile extends StatefulWidget {
 }
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
-  String profilePicUrl = "", email="";
+  String email="", profilePicUrl = "https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
 
   getThisUserInfo() async {
     email =
         widget.chatRoomId.replaceAll(widget.myEmail, "").replaceAll("_", "");
+    QuerySnapshot querySnapshot = await DatabaseService().getUserDocumentByEmail(email);
+
+    profilePicUrl = "${querySnapshot.docs[0]["pic_url"]}";
 
     setState(() {});
   }
@@ -42,7 +47,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             ClipRRect(
               borderRadius: BorderRadius.circular(30),
               child: Image.network(
-                "https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107",
+                profilePicUrl,
                 height: 40,
                 width: 40,
               ),
@@ -52,8 +57,8 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  email,
-                  style: TextStyle(fontSize: 16),
+                  email.substring(0,email.indexOf('@')),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(height: 3),
                 Text(widget.lastMessage)

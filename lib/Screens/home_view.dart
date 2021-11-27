@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Utils/image_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart';
 import 'package:flats/Screens/Social/create_post.dart';
 
 
@@ -74,16 +74,103 @@ getIcons() async{
   }
 
   _onMarkerPressed(dynamic document) async {
+    Map<String, dynamic> map = document.data();
     await showModalBottomSheet(
         context: context,
-        builder: (context) {
-          return Column(
-            children: [
-                ElevatedButton(onPressed: (){
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => CreatePost(document)));
-          }, child: Text("Create Post")),
-            ],
+        builder: (BuildContext context) {
+          return Container(
+            margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
+            child: ListView(
+              shrinkWrap: true,
+              children: [
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      MaterialButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => CreatePost(document)));
+                        },
+                        color: Colors.amber,
+                        textColor: Colors.white,
+                        child: const Text("Create Post"),
+                      ),
+                    ],
+                  ),
+                ),
+                //TODO: add margin to these rows below
+
+                Row(
+                  children: [
+                    const Text(
+                      "flat's name: ",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      document['name'],
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  children: [
+                    const Text(
+                      "euro/month: ",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Text(
+                      document['price'].toString(),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "description: ",
+                      style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Expanded(
+                      child: Text(
+                        document['description'],
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                map.containsKey("urls") == true
+                    ? ImageView(
+                        map: map,
+                      )
+                    : Container(),
+              ],
+            ),
           );
         });
   }

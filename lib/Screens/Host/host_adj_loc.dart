@@ -101,7 +101,7 @@ class _locationScreenState extends State<locationScreen> {
              padding: const EdgeInsetsDirectional.fromSTEB(250, 75, 5, 0),
               child: ElevatedButton(
                 onPressed: () {
-                  /* we have property_passed.name , property_passed.price and finalCoordinate*/
+
                   setState(() {
                     FirebaseFirestore.instance.collection('Location').add(
                         {
