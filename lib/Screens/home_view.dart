@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flats/Screens/Social/create_post.dart';
-
+import 'package:location/location.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -14,11 +14,26 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   Set<Marker> markers = Set();
   late BitmapDescriptor customIcon;
+  var user_location = Location();
+  LocationData? currentLocation;
+  late var initial_location;
+  late bool _serviceEnabled;
+  late PermissionStatus _permissionGranted;
+  bool ok = true;
+ 
 
   @override
   void initState(){
     getIcons();
     super.initState();
+    _check_permission();
+    if(ok){
+      user_location.onLocationChanged.listen((value) {
+        setState(() {
+          currentLocation = value;
+        });
+      });
+    }
   }
 
 
@@ -59,15 +74,16 @@ getIcons() async{
               print('document does not exist');
             }
           });
-
-
+          currentLocation==null
+            ? initial_location = LatLng(45.478436, 9.226619)
+            : initial_location = LatLng(currentLocation!.latitude!,currentLocation!.longitude!);
           return GoogleMap(
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            initialCameraPosition: CameraPosition(
-              target: LatLng(45.478436, 9.226619), zoom: 11.5,),
-            markers: markers,
-          );
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              initialCameraPosition: CameraPosition(
+                target: initial_location, zoom: 11.5,),
+              markers: markers,
+            );
         },
       ),
     );
@@ -174,4 +190,27 @@ getIcons() async{
           );
         });
   }
+
+  _check_permission()async {
+    _serviceEnabled = await user_location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await user_location.requestService();
+      if (!_serviceEnabled) {
+        ok = false;
+        return;
+      }
+    }
+
+    _permissionGranted = await user_location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await user_location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        ok = false;
+        return;
+      }
+    }
+    return;
+  }
+
+
 }
