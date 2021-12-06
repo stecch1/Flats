@@ -47,7 +47,7 @@ class _SocialScreenState extends State<SocialScreen> {
           ),
           elevation: 0.0,
           margin: EdgeInsets.all(10.0),
-
+          child: InkWell(
           child: Container(
             padding: EdgeInsets.all(10.0),
             child: Row(
@@ -65,8 +65,7 @@ class _SocialScreenState extends State<SocialScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children:<Widget> [
-                       InkWell(
-                        child: new Text(
+                        Text(
                           data['title'],
                           style: const TextStyle(
                             fontSize: 22.0,
@@ -75,10 +74,8 @@ class _SocialScreenState extends State<SocialScreen> {
                           maxLines: 1,
 
                         ),
-                        onTap: (){
-                          passData(data);
-                        }
-                      ),
+                        
+                      
                       SizedBox(height: 5.0,),
 
                       Text(
@@ -92,6 +89,10 @@ class _SocialScreenState extends State<SocialScreen> {
                 )
               ],
             ),
+          ),
+          onTap: (){
+                          passData(data);
+                        }
           )
         );
 
