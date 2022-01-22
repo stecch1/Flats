@@ -132,56 +132,58 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
     return Scaffold(
 
       body: Container(
-        margin: EdgeInsets.symmetric(horizontal: 20),
-        child: ListView(
-          children: [
-            Row(
-              children: [
-                isSearching
-                    ? GestureDetector(
-                  onTap: () {
-                    isSearching = false;
-                    searchUsernameEditingController.text = "";
-                    setState(() {});
-                  },
-                  child: const Padding(
-                      padding: EdgeInsets.only(right: 12),
-                      child: Icon(Icons.arrow_back)),
-                )
-                    : Container(),
-                Expanded(
-                  child: Container(
-                    margin: EdgeInsets.symmetric(vertical: 16),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                        border: Border.all(
-                            color: Colors.grey,
-                            width: 1,
-                            style: BorderStyle.solid),
-                        borderRadius: BorderRadius.circular(24)),
-                    child: Row(
-                      children: [
-                        Expanded(
-                            child: TextField(
-                              controller: searchUsernameEditingController,
-                              decoration: const InputDecoration(
-                                  border: InputBorder.none, hintText: "username"),
-                            )),
-                        GestureDetector(
-                            onTap: () {
-                              if (searchUsernameEditingController.text != "") {
-                                onSearchBtnClick();
-                              }
-                            },
-                            child: const Icon(Icons.search))
-                      ],
+        margin: EdgeInsets.symmetric(horizontal: 10),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  isSearching
+                      ? GestureDetector(
+                    onTap: () {
+                      isSearching = false;
+                      searchUsernameEditingController.text = "";
+                      setState(() {});
+                    },
+                    child: const Padding(
+                        padding: EdgeInsets.only(right: 12),
+                        child: Icon(Icons.arrow_back)),
+                  )
+                      : Container(),
+                  Expanded(
+                    child: Container(
+                      margin: EdgeInsets.symmetric(vertical: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Colors.grey,
+                              width: 1,
+                              style: BorderStyle.solid),
+                          borderRadius: BorderRadius.circular(24)),
+                      child: Row(
+                        children: [
+                          Expanded(
+                              child: TextField(
+                                controller: searchUsernameEditingController,
+                                decoration: const InputDecoration(
+                                    border: InputBorder.none, hintText: "username"),
+                              )),
+                          GestureDetector(
+                              onTap: () {
+                                if (searchUsernameEditingController.text != "") {
+                                  onSearchBtnClick();
+                                }
+                              },
+                              child: const Icon(Icons.search))
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            isSearching ? searchUsersList() : chatRoomsList()
-          ],
+                ],
+              ),
+              isSearching ? searchUsersList() : chatRoomsList()
+            ],
+          ),
         ),
       ),
     );

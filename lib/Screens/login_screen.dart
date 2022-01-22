@@ -12,37 +12,39 @@ class LoginScreen extends StatelessWidget {
     final TextEditingController passwordController = TextEditingController();
     final authService = Provider.of<AuthService>(context);
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(child:Text("you need to login!!!")),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: emailController,
-              decoration: InputDecoration(labelText: "Email"),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(child:Text("you need to login!!!")),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(labelText: "Email"),
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              obscureText: true,
-              controller: passwordController,
-              decoration: InputDecoration(labelText: "Password"),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                obscureText: true,
+                controller: passwordController,
+                decoration: InputDecoration(labelText: "Password"),
+              ),
             ),
-          ),
-          ElevatedButton(
-              onPressed: (){
-                authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
-          },
-              child: Text("Login")),
+            ElevatedButton(
+                onPressed: (){
+                  authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
+            },
+                child: Text("Login")),
 
-          ElevatedButton(onPressed: (){
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => Register()));
-          }, child: Text("Register")),
+            ElevatedButton(onPressed: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => Register()));
+            }, child: Text("Register")),
 
-        ],
+          ],
+        ),
       )
 
     );

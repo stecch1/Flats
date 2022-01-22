@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Utils/custom_dialog.dart';
 import 'package:flats/Utils/image_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,11 +65,23 @@ getIcons() async{
               var latLng = LatLng(location.latitude, location.longitude);
               markers.add(Marker(markerId: MarkerId(document.id),
                   position: latLng,
-                  infoWindow: InfoWindow(title: document['name'], snippet: document['price'].toString()+' €/month'),
-                  onTap: () => _onMarkerPressed(document),
-                  icon: customIcon,
+                infoWindow: InfoWindow(
+                    title: document['name'],
+                    snippet: document['price'].toString() + ' €/month'),
+                onTap: () =>
+                    Orientation.portrait == MediaQuery.of(context).orientation
+                        ? _showBottomSheet(document)
+                        : showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              Map<String, dynamic> map = document.data();
+                              return CustomDialogBox(
+                                map: map,
+                                document: document,
+                              );
+                            }),
+                icon: customIcon,
               ));
-
             }
             else {
               print('document does not exist');
@@ -89,7 +102,7 @@ getIcons() async{
     );
   }
 
-  _onMarkerPressed(dynamic document) async {
+  _showBottomSheet(dynamic document) async {
     Map<String, dynamic> map = document.data();
     await showModalBottomSheet(
         context: context,
