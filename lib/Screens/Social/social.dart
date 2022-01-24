@@ -44,54 +44,63 @@ class _SocialScreenState extends State<SocialScreen> {
           shape: RoundedRectangleBorder(
            side: const BorderSide(color: Colors.black, width: 1),
            borderRadius: BorderRadius.circular(5),
-          ),
-          elevation: 0.0,
-          margin: EdgeInsets.all(10.0),
-          child: InkWell(
-          child: Container(
-            padding: EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children:<Widget> [
-                 Container(
-                   margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                   child: const CircleAvatar(
-                     backgroundColor: Colors.amber,
-                     foregroundColor: Colors.black
-               ),
-                 ),
-                 Flexible(
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children:<Widget> [
-                        Text(
-                          data['title'],
-                          style: const TextStyle(
-                            fontSize: 22.0,
-                            color: Colors.black,
+                ),
+                elevation: 0.0,
+                margin: EdgeInsets.all(10.0),
+                child: InkWell(
+                    child: Column(
+                      children: [
+                        Container(
+                          width: double.infinity,
+                          height: 60,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          color: Colors.orange,
+                          child: Text(
+                            data['title'],
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                            maxLines: 1,
                           ),
-                          maxLines: 1,
-
                         ),
-                        
-                      
-                      SizedBox(height: 5.0,),
-
-                      Text(
-                        data['content'],
-                        style: TextStyle(fontSize: 14),
-                        maxLines: 2,
-                      )
-                    ],
-                  ),
-
-                )
-              ],
-            ),
-          ),
-          onTap: (){
-                          passData(data);
+                        Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
+                                child: const CircleAvatar(
+                                    radius: 10,
+                                    backgroundColor: Colors.amber,
+                                    foregroundColor: Colors.black),
+                              ),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    SizedBox(
+                                      height: 5.0,
+                                    ),
+                                    Text(
+                                      data['content'],
+                                      style: TextStyle(fontSize: 18),
+                                      maxLines: 2,
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      passData(data);
                         }
           )
         );

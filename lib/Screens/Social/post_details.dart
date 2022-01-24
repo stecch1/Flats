@@ -10,12 +10,10 @@ import 'package:provider/provider.dart';
 import 'package:path/path.dart';
 import 'package:flats/Models/user_model.dart';
 
-
-
 class PostDetails extends StatefulWidget {
   Map<String, dynamic> data;
-  PostDetails(this.data,{ Key? key }) : super(key: key);
 
+  PostDetails(this.data, {Key? key}) : super(key: key);
 
   @override
   _PostDetailsState createState() => _PostDetailsState();
@@ -26,98 +24,119 @@ class _PostDetailsState extends State<PostDetails> {
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
     return StreamBuilder<User?>(
-      stream: authService.user,
-      builder:(_, AsyncSnapshot<User?> snapshot){
-        if(snapshot.connectionState == ConnectionState.active){
-          final User? user = snapshot.data;
-    return Scaffold(
+        stream: authService.user,
+        builder: (_, AsyncSnapshot<User?> snapshot) {
+          if (snapshot.connectionState == ConnectionState.active) {
+            final User? user = snapshot.data;
+            return Scaffold(
+                appBar: AppBar(
+                    title: Text("Post Details"), backgroundColor: Colors.amber),
+                body: Card(
+                  elevation: 10.0,
+                  margin: EdgeInsets.all(10.0),
+                  child: ListView(
+                    children: <Widget>[
+                      Column(
+                        children: [
 
-      appBar:  AppBar(
-        title:  Text("Post Details"),
-        backgroundColor: Colors.amber
-      ),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: CircleAvatar(
+                                    backgroundColor: Colors.amber,
+                                    foregroundColor: Colors.black),
+                              ),
+                              Flexible(
+                                child: Text(widget.data['title'],
+                                    style: TextStyle(
+                                      fontSize: 22.0,
+                                    )),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.0,
+                          ),
+                          Container(
+                              alignment: Alignment.topLeft,
+                              margin: EdgeInsets.fromLTRB(15,0,0,30),
+                              child: Text(
+                                widget.data['userMail'],
+                                style: TextStyle(
+                                  fontSize: 14.0,
+                                ),
+                                textAlign: TextAlign.justify,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                          Container(
+                            margin: EdgeInsets.all(10.0),
+                            child: Text(
+                              widget.data['content'],
+                              style: TextStyle(
+                                fontSize: 18.0,
+                              ),
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
 
-      body: Card(
-        elevation: 10.0,
-        margin: EdgeInsets.all(10.0),
-        child: ListView(
-          children:<Widget>[
-             Column(
-               children: [
-                 Row(
-                   children: <Widget>[
-                     Container(
-                       padding: EdgeInsets.all(10),
-                       child: CircleAvatar(
-                           backgroundColor: Colors.amber,
-                           foregroundColor: Colors.black),
-                     ),
-                     Flexible(
-                       child: Text(widget.data['title'],
-                           style: TextStyle(
-                             fontSize: 22.0,
-                           )),
-                     ),
-                   ],
-                 ),
-                 SizedBox(
-                   height: 10.0,
-                 ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) => flatDetails(
+                                                  widget.data['flatId'])));
+                                    },
+                                    child: const Text("See Flat")),
+                                ElevatedButton(
+                                    onPressed: () {
+                                      var chatRoomId = getChatRoomIdByUsernames(
+                                          user!.email!, widget.data['userMail']);
+                                      Map<String, dynamic> chatRoomInfoMap = {
+                                        "emails": [
+                                          user.email!,
+                                          widget.data['userMail']
+                                        ],
+                                        "lastMessage": " ",
+                                      };
+                                      if (user.email! != widget.data['userMail']) {
+                                        DatabaseService().createChatRoom(
+                                            chatRoomId, chatRoomInfoMap);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) => ChatScreen(
+                                                    widget.data['userMail'],
+                                                    user.email!)));
+                                      } else {
+                                        print("you cannot chat with yourself");
+                                      }
+                                    },
+                                    child: Icon(Icons.message),
 
-                 Container(
-                     margin:EdgeInsets.all(10.0),
 
-                       child: Text(widget.data['content'],
-                         style: TextStyle(fontSize: 18.0, ),
-                         textAlign: TextAlign.justify,
-
-                     ),
-                 ),
-
-
-                 Container(
-                    margin:EdgeInsets.all(1.0),
-                    child: Text(widget.data['userMail'],
-                      style: TextStyle(fontSize: 14.0, ),
-                      textAlign: TextAlign.justify,
-                      overflow: TextOverflow.ellipsis,
+                                    ),
+                              ],
+                            ),
+                          ),
+                        ],
                       )
+                    ],
                   ),
-                ElevatedButton(onPressed: (){
-                  Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => flatDetails(widget.data['flatId'])));
-          }, child: const Text("See Flats")),
-
-          ElevatedButton(onPressed: (){
-
-            var chatRoomId = getChatRoomIdByUsernames(user!.email!, widget.data['userMail'] );
-            Map<String, dynamic> chatRoomInfoMap = {
-              "emails": [user.email! , widget.data['userMail']],
-              "lastMessage": " ",
-            };
-            if (user.email! != widget.data['userMail']) {
-              DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
-                Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ChatScreen(widget.data['userMail'], user.email!)));
-            }else{print("you cannot chat with yourself");}
-
-          },child: Text("write a message")),
-
-
-                ],
-              )
-          ],
-        ),
-
-      ));
-        }else{
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      }
-      );
+                ));
+          } else {
+            return const Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+        });
   }
 }

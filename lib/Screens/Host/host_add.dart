@@ -49,11 +49,13 @@ class _HostAddstate extends State<HostAdd> {
           toolbarHeight: 38,
         ),
         body: SingleChildScrollView(
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center,crossAxisAlignment: CrossAxisAlignment.start, children: [
             const Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(5, 0, 120, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(30, 20, 0, 0),
+
               child: Text(
                 'Start listing \nyour property',
+                textAlign: TextAlign.start,
                 style: TextStyle(fontSize: 40),
               ),
             ),
@@ -172,7 +174,7 @@ class _HostAddstate extends State<HostAdd> {
               ),
             ),
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(250, 100, 5, 0),
+              padding: const EdgeInsetsDirectional.fromSTEB(20, 40, 5, 0),
               child: ElevatedButton(
                 onPressed: () {
                   property property_prov = property(flatNameController.text,descriptionController.text,

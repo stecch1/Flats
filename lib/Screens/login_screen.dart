@@ -16,7 +16,10 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(child:Text("you need to login!!!")),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(child:Text("you need to login!!!")),
+            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(

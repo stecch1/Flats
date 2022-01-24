@@ -36,7 +36,7 @@ class HostHomeVertical extends StatelessWidget {
               },
               child: const Text(
                 "check my flats",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
           ),
@@ -58,7 +58,7 @@ class HostHomeVertical extends StatelessWidget {
               },
               child: const Text(
                 "add new flat",
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(fontSize: 20, color: Colors.white),
               ),
             ),
           ),
