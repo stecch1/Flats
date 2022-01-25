@@ -69,7 +69,7 @@ getIcons() async{
                     title: document['name'],
                     snippet: document['price'].toString() + ' €/month'),
                 onTap: () =>
-                    Orientation.portrait == MediaQuery.of(context).orientation
+                    MediaQuery.of(context).size.width < 500
                         ? _showBottomSheet(document)
                         : showDialog(
                             context: context,

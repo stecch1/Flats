@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/Chat/chat_screen.dart';
+import 'package:flats/Screens/Chat/lateral_chat_screen.dart';
 import 'package:flats/Services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -35,10 +36,21 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        MediaQuery.of(context).size.width < 500 ?
         Navigator.push(
             context,
             MaterialPageRoute(
-                builder: (context) => ChatScreen(email, widget.myEmail)));
+                builder: (context) => ChatScreen(email, widget.myEmail)))
+            :
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return LateralChatScreen(
+                email: email,
+                myEmail: widget.myEmail,
+              );
+            });
+
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 8),

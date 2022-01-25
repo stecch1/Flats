@@ -14,6 +14,8 @@ class SocialScreen extends StatefulWidget {
 }
 
 class _SocialScreenState extends State<SocialScreen> {
+
+  int gridCells = 2;
   
   final Stream<QuerySnapshot> _postStream = FirebaseFirestore.instance.collection('Post').snapshots();
 
@@ -25,6 +27,7 @@ class _SocialScreenState extends State<SocialScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQuery.of(context).size.width < 500 ? gridCells = 2 : gridCells = 3;
     return StreamBuilder<QuerySnapshot>(
       stream: _postStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -37,7 +40,9 @@ class _SocialScreenState extends State<SocialScreen> {
         }
 
         
-    return ListView(
+    return GridView.count(
+
+      crossAxisCount: gridCells,
       children: snapshot.data!.docs.map((DocumentSnapshot document) {
        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
         return Card(

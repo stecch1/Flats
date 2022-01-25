@@ -38,7 +38,7 @@ class _HostScreenState extends State<HostScreen> {
               alignment: Alignment.center,
               child: SingleChildScrollView(
                   child:
-                      Orientation.portrait == MediaQuery.of(context).orientation
+                      MediaQuery.of(context).size.width < 500
                           ? HostHomeVertical(
                               snapshot: snapshot,
                             )

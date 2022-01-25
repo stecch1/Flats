@@ -27,12 +27,13 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       child: Dialog(
         insetPadding: const EdgeInsets.fromLTRB(0, 0,350, 100),
         shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(Constants.padding),
         ),
 
 
         child: Container(
-          margin: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+          margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -96,26 +97,29 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                 ],
               ),
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "description: ",
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      widget.document['description'],
-                      style: const TextStyle(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0,0,0,15),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      "description: ",
+                      style: TextStyle(
                         fontSize: 17,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Text(
+                        widget.document['description'],
+                        style: const TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
 
               widget.map.containsKey("urls") == true

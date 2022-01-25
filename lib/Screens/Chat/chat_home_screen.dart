@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/Chat/chat_screen.dart';
 import 'package:flats/Screens/Chat/chatroom_list_tile.dart';
+import 'package:flats/Screens/Chat/lateral_chat_screen.dart';
 import 'package:flats/Services/database_service.dart';
 import 'package:flats/Utils/get_chatroom_id_function.dart';
 import 'package:flutter/material.dart';
@@ -63,11 +64,23 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
         };
         if (widget.myEmail != email) {
           DatabaseService().createChatRoom(chatRoomId, chatRoomInfoMap);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ChatScreen(email, widget.myEmail)));
-        }else{print("you cannot chat with yourself!!");}
+
+          MediaQuery.of(context).size.width < 500
+              ? Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChatScreen(email, widget.myEmail)))
+              : showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return LateralChatScreen(
+                      email: email,
+                      myEmail: widget.myEmail,
+                    );
+                  });
+        } else {
+          print("you cannot chat with yourself!!");
+        }
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -132,6 +145,7 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
     return Scaffold(
 
       body: Container(
+
         margin: EdgeInsets.symmetric(horizontal: 10),
         child: SingleChildScrollView(
           child: Column(
@@ -181,10 +195,12 @@ class _ChatHomeScreenState extends State<ChatHomeScreen> {
                   ),
                 ],
               ),
-              isSearching ? searchUsersList() : chatRoomsList()
+              isSearching ? searchUsersList() : chatRoomsList() ,
+
             ],
           ),
         ),
+
       ),
     );
   }

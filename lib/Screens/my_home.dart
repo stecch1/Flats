@@ -3,7 +3,7 @@ import 'package:flats/Screens/Chat/chat_home.dart';
 import 'package:flats/Screens/home_view.dart';
 import 'package:flats/Screens/Host/host.dart';
 import 'package:flats/Screens/menu.dart';
-import 'package:flats/Screens/Social/social.dart';
+import 'package:flats/Screens/Social/social_home.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flats/Theme/theme.dart';
 import 'package:flats/Utils/wrapper.dart';
