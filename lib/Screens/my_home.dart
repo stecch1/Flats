@@ -25,7 +25,7 @@ class _MyHomeState extends State<MyHome> {
 
   static final List<Widget> _widgetOptions = <Widget>[
     FutureBuilder(
-      //TODO: maybe initialize at main level and update contents at this point.this code will initialize fb everytime
+
       future: Firebase.initializeApp(),
       builder: (context, snapshot) {
         if (snapshot.hasError) {

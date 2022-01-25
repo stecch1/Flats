@@ -72,36 +72,42 @@ class _SocialScreenState extends State<SocialScreen> {
                             maxLines: 1,
                           ),
                         ),
-                        Container(
-                          padding: EdgeInsets.all(10.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                                child: const CircleAvatar(
-                                    radius: 10,
-                                    backgroundColor: Colors.amber,
-                                    foregroundColor: Colors.black),
-                              ),
-                              Flexible(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    SizedBox(
-                                      height: 5.0,
+                        Column(
+                          children: [
+                            Container(
+                              padding: EdgeInsets.all(10.0),
+                                child:
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          height: 7.0,
+                                        ),
+                                        Text(
+                                          data['content'],
+                                          style: TextStyle(fontSize: 18),
+                                          maxLines: 2,
+                                        ),
+                                        SizedBox(
+                                          height: 10.0,
+                                        ),
+                                      ],
                                     ),
-                                    Text(
-                                      data['content'],
-                                      style: TextStyle(fontSize: 18),
-                                      maxLines: 2,
-                                    )
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                  ),
+
+                              ),
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
+                              child: const CircleAvatar(
+                                  radius: 10,
+                                  backgroundColor: Colors.amber,
+                                  foregroundColor: Colors.black),
+                            ),
+                          ],
                         ),
+
                       ],
                     ),
                     onTap: () {
