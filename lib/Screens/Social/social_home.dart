@@ -56,11 +56,15 @@ class _SocialScreenState extends State<SocialScreen> {
                     child: Column(
                       children: [
                         Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: Colors.orange,
+                          ),
                           width: double.infinity,
                           height: 60,
                           alignment: Alignment.center,
                           padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                          color: Colors.orange,
+
                           child: Text(
                             data['title'],
                             textAlign: TextAlign.center,
