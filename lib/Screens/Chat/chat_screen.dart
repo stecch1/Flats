@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Screens/Chat/chat_message_tile.dart';
 import 'package:flats/Services/database_service.dart';
 import 'package:flats/Utils/get_chatroom_id_function.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:random_string/random_string.dart';
 
 class ChatScreen extends StatefulWidget {
   final String email;
+
   final String myEmail;
   ChatScreen(this.email, this.myEmail);
   @override
@@ -63,34 +65,6 @@ class _ChatScreenState extends State<ChatScreen> {
     }
   }
 
-  Widget chatMessageTile(String message, bool sendByMe) {
-    return Row(
-      mainAxisAlignment:
-      sendByMe ? MainAxisAlignment.end : MainAxisAlignment.start,
-      children: [
-        Flexible(
-          child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  topLeft: const Radius.circular(24),
-                  bottomRight:
-                  sendByMe ? const Radius.circular(0) : Radius.circular(24),
-                  topRight: const Radius.circular(24),
-                  bottomLeft:
-                  sendByMe ? const Radius.circular(24) : Radius.circular(0),
-                ),
-                color: sendByMe ? Colors.blue : Colors.grey,
-              ),
-              padding: const EdgeInsets.all(16),
-              child: Text(
-                message,
-                style: TextStyle(color: Colors.white),
-              )),
-        ),
-      ],
-    );
-  }
 
   Widget chatMessages() {
     return StreamBuilder(
@@ -103,8 +77,8 @@ class _ChatScreenState extends State<ChatScreen> {
             reverse: true,
             itemBuilder: (context, index) {
               DocumentSnapshot ds = snapshot.data.docs[index];
-              return chatMessageTile(
-                  ds["message"], widget.myEmail == ds["sendBy"]);
+              return ChatMessageTile(
+                  message : ds["message"], sendByMe :widget.myEmail == ds["sendBy"]);
             })
             : const Center(child: CircularProgressIndicator());
       },
@@ -112,9 +86,13 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   getAndSetMessages() async {
-    messageStream = await DatabaseService().getChatRoomMessages(chatRoomId);
-    setState(() {});
+
+      messageStream = await DatabaseService().getChatRoomMessages(chatRoomId);
+      setState(() {});
   }
+
+
+
 
   doThisOnLaunch() async {
 
