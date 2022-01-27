@@ -44,6 +44,11 @@ void main(){
     var result = FieldValidator.validate('this9');
     expect(result, null);
   });
+  test('points return null',(){
+
+    var result = FieldValidator.validate('Appartamentino per sole donne lavoratrici. Contattateci dopo il 15 Marzo.');
+    expect(result, null);
+  });
 
   test('numbers return null',(){
 

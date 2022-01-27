@@ -1,4 +1,6 @@
+import 'package:flats/Screens/Social/PostDetails/flat_details_view_horizontal.dart';
 import 'package:flats/Screens/Social/PostDetails/post_details_view.dart';
+import 'package:flats/Screens/Social/PostDetails/flat_details_view.dart';
 import 'package:flats/Services/auth_service.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +27,12 @@ class _PostDetailsState extends State<PostDetails> {
         builder: (_, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final User? user = snapshot.data;
-            return PostDetailsView(data: widget.data,docId : widget.docId,user: user!);
+
+            return
+              MediaQuery.of(context).size.width > 700 ?
+              FlatDetailsViewHorizontal(widget.data['flatId'], data: widget.data,docId : widget.docId,user: user!)
+              :
+              FlatDetailsView(widget.data['flatId'], data: widget.data,docId : widget.docId,user: user!);
           } else {
             return const Scaffold(
               body: Center(

@@ -18,7 +18,7 @@ class property {
 }
 
 class FieldValidator{
-  static RegExp exp = new RegExp(r"[^a-z ,0-9']", caseSensitive: false);
+  static RegExp exp = new RegExp(r"[^a-z ,0-9'.]", caseSensitive: false);
   static String? validate(String value){
     return (value.isEmpty || !(exp.allMatches(value).length == 0) ) ? 'Invalid text' : null;
   }

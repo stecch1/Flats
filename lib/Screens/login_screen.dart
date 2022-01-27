@@ -34,49 +34,57 @@ class LoginScreen extends StatelessWidget {
       authService = Provider.of<AuthService>(context);
     }
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Form(
-          key: formGlobalKey,
-          child: Column(
+      body: Center(
+        child: SingleChildScrollView(
+          child: Form(
+            key: formGlobalKey,
+            child: Column(
 
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Text("you need to login!!!"),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-
-                  validator: (value)=>EmailFieldValidator.validate(value!),
-                  controller: emailController,
-                  decoration: const InputDecoration(labelText: "Email"),
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Text("you need to login!!!"),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextFormField(
-                  obscureText: true,
-                  validator: (value)=> PasswordFieldValidator.validate(value!),
-                  controller: passwordController,
-                  decoration: const InputDecoration(labelText: "Password"),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 200,
+                    child: TextFormField(
+
+                      validator: (value)=>EmailFieldValidator.validate(value!),
+                      controller: emailController,
+                      decoration: const InputDecoration(labelText: "Email"),
+                    ),
+                  ),
                 ),
-              ),
-              ElevatedButton(
-                  onPressed: (){
-                    if (formGlobalKey.currentState!.validate()) {
-                      authService!.signInWithEmailAndPassword(emailController.text, passwordController.text);
-                    }
-              },
-                  child: const Text("Login")),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    width: 200,
+                    child: TextFormField(
+                      obscureText: true,
+                      validator: (value)=> PasswordFieldValidator.validate(value!),
+                      controller: passwordController,
+                      decoration: const InputDecoration(labelText: "Password"),
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                    onPressed: (){
+                      if (formGlobalKey.currentState!.validate()) {
+                        authService!.signInWithEmailAndPassword(emailController.text, passwordController.text);
+                      }
+                },
+                    child: const Text("Login")),
 
-              ElevatedButton(onPressed: (){
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Register()));
-              }, child: const Text("Register")),
+                ElevatedButton(onPressed: (){
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Register()));
+                }, child: const Text("Register")),
 
-            ],
+              ],
+            ),
           ),
         ),
       )

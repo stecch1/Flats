@@ -69,7 +69,7 @@ getIcons() async{
                     title: document['name'],
                     snippet: document['price'].toString() + ' €/month'),
                 onTap: () =>
-                    MediaQuery.of(context).size.width < 500
+                    MediaQuery.of(context).size.width < 1100
                         ? _showBottomSheet(document)
                         : showDialog(
                             context: context,
@@ -194,9 +194,12 @@ getIcons() async{
                 ),
 
                 map.containsKey("urls") == true
-                    ? ImageView(
-                        map: map,
-                      )
+                    ? Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: ImageView(
+                          map: map,
+                        ),
+                    )
                     : Container(),
               ],
             ),

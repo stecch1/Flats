@@ -22,76 +22,77 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
+        shadowColor: Colors.black87,
+
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
-          borderRadius: BorderRadius.circular(5),
+          borderRadius: BorderRadius.circular(20),
         ),
         elevation: 0.0,
         margin: EdgeInsets.all(10.0),
-        child: InkWell(
-            child: Column(
-              children: [
-                Container(
-                  key:ValueKey("container_key"),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: Colors.orange,
+        child: Scaffold(
+
+          body: InkWell(
+              child: Column(
+                children: [
+                  Container(
+                    key:ValueKey("container_key"),
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft:Radius.circular(20),
+                        topRight:Radius.circular(20),
+                      ),
+                      color: Colors.orangeAccent,
+                    ),
+                    width: double.infinity,
+                    height: 60,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+
+                    child: Text(
+                      widget.data['title'],
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                      maxLines: 1,
+                    ),
                   ),
-                  width: double.infinity,
-                  height: 60,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                  Column(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.all(10.0),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 7.0,
+                              ),
+                              Text(
+                                widget.data['content'],
+                                style: TextStyle(fontSize: 18),
+                                maxLines: 2,
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
+                            ],
+                          ),
 
-                  child: Text(
-                    widget.data['title'],
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 22.0,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                    maxLines: 1,
+
+                      ),
+
+                    ],
                   ),
-                ),
-                Column(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10.0),
-                      child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            SizedBox(
-                              height: 7.0,
-                            ),
-                            Text(
-                              widget.data['content'],
-                              style: TextStyle(fontSize: 18),
-                              maxLines: 2,
-                            ),
-                            SizedBox(
-                              height: 10.0,
-                            ),
-                          ],
-                        ),
 
-
-                    ),
-                    Container(
-                      alignment: Alignment.bottomRight,
-                      margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                      child: const CircleAvatar(
-                          radius: 10,
-                          backgroundColor: Colors.amber,
-                          foregroundColor: Colors.black),
-                    ),
-                  ],
-                ),
-
-              ],
-            ),
-            onTap: () {
-              passData(widget.data);
-            }
+                ],
+              ),
+              onTap: () {
+                passData(widget.data);
+              }
+          ),
         )
     );
   }

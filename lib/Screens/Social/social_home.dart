@@ -23,7 +23,7 @@ class _SocialScreenState extends State<SocialScreen> {
 
   @override
   Widget build(BuildContext context) {
-    MediaQuery.of(context).size.width < 500 ? gridCells = 2 : gridCells = 3;
+    MediaQuery.of(context).size.width < 500 ? gridCells = 2 : gridCells = 4;
     return StreamBuilder<QuerySnapshot>(
       stream: _postStream,
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

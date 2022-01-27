@@ -1,18 +1,25 @@
+import 'package:flats/Models/user_model.dart';
+import 'package:flats/Screens/Social/PostDetails/post_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class flatDetails extends StatefulWidget {
+class FlatDetailsView extends StatefulWidget {
   final String flatId;
+  Map<String, dynamic> data;
+  User? user;
+  final String docId;
 
-  const flatDetails(this.flatId, {Key? key}) : super(key: key);
+  FlatDetailsView(this.flatId,
+      {Key? key, required this.data, required this.docId, required this.user})
+      : super(key: key);
 
   @override
-  _flatDetailsState createState() => _flatDetailsState();
+  _FlatDetailsViewState createState() => _FlatDetailsViewState();
 }
 
-class _flatDetailsState extends State<flatDetails> {
+class _FlatDetailsViewState extends State<FlatDetailsView> {
   int _currentIndex = 0;
   Set<Marker> markers = Set();
   late BitmapDescriptor customIcon;
@@ -66,11 +73,39 @@ class _flatDetailsState extends State<flatDetails> {
               ));
               return Scaffold(
                 appBar: AppBar(
-                    title: Text("Flat Details"), backgroundColor: Colors.amber),
+                  title: Text("Post Details"),
+                  backgroundColor: Colors.amber,
+                  actions: <Widget>[
+                    widget.data['uid'] == widget.user!.uid
+                        ? Padding(
+                            padding: EdgeInsets.only(right: 20.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                //delete post
+                                FirebaseFirestore.instance
+                                    .collection("Post")
+                                    .doc(widget.docId)
+                                    .delete();
+                                Navigator.pop(context, true);
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                size: 26.0,
+                              ),
+                            ),
+                          )
+                        : Container(),
+                  ],
+                ),
                 body: ListView(
+
                   shrinkWrap: true,
                   /*mainAxisSize: MainAxisSize.max,*/
                   children: <Widget>[
+                    PostDetailsView(
+                        data: widget.data,
+                        docId: widget.docId,
+                        user: widget.user!),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -165,23 +200,26 @@ class _flatDetailsState extends State<flatDetails> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                            width: 250,
-                            height: 150,
-                            decoration: BoxDecoration(
-                              color: Color(0xFFEEEEEE),
-                              borderRadius: BorderRadius.circular(5),
-                              shape: BoxShape.rectangle,
-                              border: Border.all(
-                                color: Color(0xFF0B0B0B),
-                                width: 2,
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 250,
+                              height: 150,
+                              decoration: BoxDecoration(
+                                color: Color(0xFFEEEEEE),
+                                borderRadius: BorderRadius.circular(5),
+                                shape: BoxShape.rectangle,
+                                border: Border.all(
+                                  color: Color(0xFF0B0B0B),
+                                  width: 2,
+                                ),
                               ),
-                            ),
-                            child: GoogleMap(
-                              initialCameraPosition:
-                                  CameraPosition(target: latLng, zoom: 15),
-                              markers: markers,
-                            ))
+                              child: GoogleMap(
+                                initialCameraPosition:
+                                    CameraPosition(target: latLng, zoom: 15),
+                                markers: markers,
+                              )),
+                        )
                       ],
                     )
                   ],

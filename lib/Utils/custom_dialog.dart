@@ -25,7 +25,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
     return Align(
       alignment: Alignment.topLeft,
       child: Dialog(
-        insetPadding: const EdgeInsets.fromLTRB(0, 0,350, 100),
+        insetPadding: const EdgeInsets.fromLTRB(0, 0,800, 500),
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(Constants.padding),

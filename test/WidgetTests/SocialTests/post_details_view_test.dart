@@ -40,15 +40,6 @@ void main() {
     expect(iconFinder, findsOneWidget);
   });
 
-  //only if data['uid'] == user!.uid you can see the delete icon
-
-  testWidgets('Two icons showing', (WidgetTester tester) async {
-    // Create the widget by telling the tester to build it.
-    await tester.pumpWidget(MaterialApp(
-        home: PostDetailsView(data: map_same_usr,user: usr,docId: "123")));
-    final iconFinder = find.byType(Icon);
-    expect(iconFinder, findsNWidgets(2));
-  });
 
 
 
