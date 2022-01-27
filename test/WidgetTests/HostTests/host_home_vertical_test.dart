@@ -14,7 +14,7 @@ void main() {
 
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(HostHomeVertical(snapshot: snapshot));
-    final emailFinder = find.text('check my flats');
+    final emailFinder = find.textContaining('my flats');
     expect(emailFinder, findsOneWidget);
   });
 
@@ -22,7 +22,7 @@ void main() {
 
     // Create the widget by telling the tester to build it.
     await tester.pumpWidget(HostHomeVertical(snapshot: snapshot));
-    final emailFinder = find.text('add new flat');
+    final emailFinder = find.textContaining('add');
     expect(emailFinder, findsOneWidget);
   });
 

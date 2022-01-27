@@ -1,9 +1,8 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flats/Screens/Social/post_card.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:path/path.dart';
-import 'post_details.dart';
+
 
 
 class SocialScreen extends StatefulWidget {
@@ -20,9 +19,6 @@ class _SocialScreenState extends State<SocialScreen> {
   final Stream<QuerySnapshot> _postStream = FirebaseFirestore.instance.collection('Post').snapshots();
 
 
-  passData(Map<String, dynamic> data){
-    Navigator.of(this.context).push(new MaterialPageRoute(builder: (context)=>PostDetails(data)));
-  }
 
 
   @override
@@ -45,80 +41,8 @@ class _SocialScreenState extends State<SocialScreen> {
       crossAxisCount: gridCells,
       children: snapshot.data!.docs.map((DocumentSnapshot document) {
        Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-        return Card(
-          shape: RoundedRectangleBorder(
-           side: const BorderSide(color: Colors.black, width: 1),
-           borderRadius: BorderRadius.circular(5),
-                ),
-                elevation: 0.0,
-                margin: EdgeInsets.all(10.0),
-                child: InkWell(
-                    child: Column(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: Colors.orange,
-                          ),
-                          width: double.infinity,
-                          height: 60,
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-
-                          child: Text(
-                            data['title'],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                            maxLines: 1,
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              padding: EdgeInsets.all(10.0),
-                                child:
-                                  Flexible(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        SizedBox(
-                                          height: 7.0,
-                                        ),
-                                        Text(
-                                          data['content'],
-                                          style: TextStyle(fontSize: 18),
-                                          maxLines: 2,
-                                        ),
-                                        SizedBox(
-                                          height: 10.0,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-
-                              ),
-                            Container(
-                              alignment: Alignment.bottomRight,
-                              margin: EdgeInsets.fromLTRB(5, 0, 10, 0),
-                              child: const CircleAvatar(
-                                  radius: 10,
-                                  backgroundColor: Colors.amber,
-                                  foregroundColor: Colors.black),
-                            ),
-                          ],
-                        ),
-
-                      ],
-                    ),
-                    onTap: () {
-                      passData(data);
-                        }
-          )
-        );
+       String docId = document.id;
+        return PostCard(data: data,docId: docId);
 
       }).toList(),
     );

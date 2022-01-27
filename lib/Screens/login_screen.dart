@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flats/Screens/register_screen.dart';
 import 'package:flats/Services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +23,22 @@ class PasswordFieldValidator{
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
 
-
+    AuthService? authService = null;
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final authService = Provider.of<AuthService>(context);
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      authService = Provider.of<AuthService>(context);
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Form(
           key: formGlobalKey,
           child: Column(
+
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Padding(
@@ -43,7 +48,7 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-                  
+
                   validator: (value)=>EmailFieldValidator.validate(value!),
                   controller: emailController,
                   decoration: const InputDecoration(labelText: "Email"),
@@ -52,7 +57,6 @@ class LoginScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: TextFormField(
-
                   obscureText: true,
                   validator: (value)=> PasswordFieldValidator.validate(value!),
                   controller: passwordController,
@@ -62,7 +66,7 @@ class LoginScreen extends StatelessWidget {
               ElevatedButton(
                   onPressed: (){
                     if (formGlobalKey.currentState!.validate()) {
-                      authService.signInWithEmailAndPassword(emailController.text, passwordController.text);
+                      authService!.signInWithEmailAndPassword(emailController.text, passwordController.text);
                     }
               },
                   child: const Text("Login")),

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/login_screen.dart';
 import 'package:flats/Services/auth_service.dart';
@@ -11,9 +12,12 @@ class Register extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    AuthService? authService = null;
     final TextEditingController emailController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
-    final authService = Provider.of<AuthService>(context);
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      authService = Provider.of<AuthService>(context);
+    }
     return Scaffold(
         body: Form(
           key: formGlobalKey,
@@ -41,7 +45,7 @@ class Register extends StatelessWidget {
               ElevatedButton(
               onPressed: () async {
                 if (formGlobalKey.currentState!.validate()) {
-                  authService
+                  authService!
                       .createUserWithEmailAndPassword(
                           emailController.text, passwordController.text)
                       .then((usr) => {

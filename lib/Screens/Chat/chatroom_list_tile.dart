@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Screens/Chat/chat_screen.dart';
 import 'package:flats/Screens/Chat/lateral_chat_screen.dart';
@@ -16,11 +18,15 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   String email="", profilePicUrl = "https://firebasestorage.googleapis.com/v0/b/testappproject-329013.appspot.com/o/images%2Faccountpic.png?alt=media&token=94d81c05-78f6-46ff-a000-491cffdd6107";
 
   getThisUserInfo() async {
-    email =
-        widget.chatRoomId.replaceAll(widget.myEmail, "").replaceAll("_", "");
-    QuerySnapshot querySnapshot = await DatabaseService().getUserDocumentByEmail(email);
+    if (!Platform.environment.containsKey('FLUTTER_TEST')) {
+      email =
+          widget.chatRoomId.replaceAll(widget.myEmail, "").replaceAll("_", "");
+      QuerySnapshot querySnapshot = await DatabaseService().getUserDocumentByEmail(email);
 
-    profilePicUrl = "${querySnapshot.docs[0]["pic_url"]}";
+      profilePicUrl = "${querySnapshot.docs[0]["pic_url"]}";
+    }else
+      {email = "test@email.com";
+       profilePicUrl = "";}
 
     setState(() {});
   }
@@ -64,17 +70,19 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                 width: 40,
               ),
             ),
-            SizedBox(width: 12),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  email.substring(0,email.indexOf('@')),
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 3),
-                Text(widget.lastMessage)
-              ],
+            Flexible(child: SizedBox(width: 12)),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    email.substring(0,email.indexOf('@')),
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 3),
+                  Text(widget.lastMessage)
+                ],
+              ),
             )
           ],
         ),

@@ -13,6 +13,7 @@ class ChatMessageTile extends StatelessWidget {
       children: [
         Flexible(
           child: Container(
+
               margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
@@ -24,12 +25,14 @@ class ChatMessageTile extends StatelessWidget {
                   sendByMe ? const Radius.circular(24) : Radius.circular(0),
                 ),
                 color: sendByMe ? Colors.blue : Colors.grey,
+
               ),
               padding: const EdgeInsets.all(16),
               child: Text(
                 message,
                 style: TextStyle(color: Colors.white),
-              )),
+              ),
+          ),
         ),
       ],
     );

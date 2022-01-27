@@ -75,8 +75,7 @@ class _locationScreenState extends State<locationScreen> {
                         zoom: 17
                       ),
                       
-                      
-        
+
                       onMapCreated: (controller) {
                         final marker = Marker(
                           markerId: MarkerId('0'),

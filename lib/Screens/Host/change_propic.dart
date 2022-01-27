@@ -17,6 +17,7 @@ class ChangeProPic extends StatefulWidget {
 
 class _ChangeProPicState extends State<ChangeProPic> {
   File? img;
+  var test_key = ValueKey("test_key");
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,9 @@ class _ChangeProPicState extends State<ChangeProPic> {
               ],
             ),
             Container(
-              child: Text(img != null ? img.toString() : ""),
+
+              child: Text(img != null ? img.toString() : "",
+                          key: test_key,),
               margin: EdgeInsets.fromLTRB(60, 20, 60, 0),
             ),
           ],

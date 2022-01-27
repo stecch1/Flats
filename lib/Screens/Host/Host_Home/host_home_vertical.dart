@@ -21,9 +21,7 @@ class HostHomeVertical extends StatelessWidget {
             height: 30,
           ),
           Text(
-
             "User email: " + snapshot.data!.email!,
-            textDirection: TextDirection.ltr,
             style: TextStyle(fontSize: 20),
           ),
           Padding(
@@ -40,7 +38,6 @@ class HostHomeVertical extends StatelessWidget {
                 },
                 child: const Text(
                   "check my flats",
-                  textDirection: TextDirection.ltr,
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
@@ -57,13 +54,12 @@ class HostHomeVertical extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => HostAdd(
-                                uid: snapshot.data!.uid,
-                                hostMail: snapshot.data!.email!,
-                              )));
+                            uid: snapshot.data!.uid,
+                            hostMail: snapshot.data!.email!,
+                          )));
                 },
                 child: const Text(
                   "add new flat",
-                  textDirection: TextDirection.ltr,
                   style: TextStyle(fontSize: 20, color: Colors.white),
                 ),
               ),
