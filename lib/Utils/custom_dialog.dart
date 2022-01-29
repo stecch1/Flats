@@ -29,12 +29,8 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
       alignment: Alignment.topLeft,
       child: Dialog(
         insetPadding: EdgeInsets.fromLTRB(0,0,
-            MediaQuery.of(context).size.width < 1100 ?
-            500 :
-            800,
-            MediaQuery.of(context).size.width < 1100 ?
-            700 :
-            500),
+            MediaQuery.of(context).size.width /1.75,
+            MediaQuery.of(context).size.height/1.6),
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(Constants.padding),
