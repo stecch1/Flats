@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flats/Screens/Social/create_post.dart';
 import 'package:location/location.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -69,7 +70,7 @@ getIcons() async{
                     title: document['name'],
                     snippet: document['price'].toString() + ' €/month'),
                 onTap: () =>
-                    MediaQuery.of(context).size.width < 700
+                    MediaQuery.of(context).size.width < 800
                         ? _showBottomSheet(document)
                         : showDialog(
                             context: context,
@@ -107,30 +108,35 @@ getIcons() async{
     await showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
+
           return Container(
+
             margin: EdgeInsets.fromLTRB(5, 0, 5, 0),
             child: ListView(
+
               shrinkWrap: true,
               children: [
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => CreatePost(document)));
-                        },
-                        color: Colors.amber,
-                        textColor: Colors.white,
-                        child: const Text("Create Post"),
-                      ),
-                    ],
+
+                  Container(
+                    margin: const EdgeInsets.all(5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        MaterialButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => CreatePost(document)));
+                          },
+                          color: Colors.amber,
+                          textColor: Colors.white,
+                          child: const Text("Create Post"),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+
                 //TODO: add margin to these rows below
 
                 Row(

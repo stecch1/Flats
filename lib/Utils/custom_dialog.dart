@@ -6,10 +6,11 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 
 class CustomDialogBox extends StatefulWidget {
+
   final dynamic document;
   final Map<String, dynamic> map;
 
-  const CustomDialogBox({ Key? key,
+  CustomDialogBox({ Key? key,
     required this.document,
     required this.map,
   })
@@ -22,10 +23,17 @@ class CustomDialogBox extends StatefulWidget {
 class _CustomDialogBoxState extends State<CustomDialogBox> {
   @override
   Widget build(BuildContext context) {
+
     return Align(
       alignment: Alignment.topLeft,
       child: Dialog(
-        insetPadding: const EdgeInsets.fromLTRB(0, 0,800, 500),
+        insetPadding: EdgeInsets.fromLTRB(0,0,
+            MediaQuery.of(context).size.width < 1100 ?
+            500 :
+            800,
+            MediaQuery.of(context).size.width < 1100 ?
+            700 :
+            500),
         shape: RoundedRectangleBorder(
           side: const BorderSide(color: Colors.black, width: 1),
           borderRadius: BorderRadius.circular(Constants.padding),

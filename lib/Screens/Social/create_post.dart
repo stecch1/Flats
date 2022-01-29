@@ -33,7 +33,9 @@ class _CreatePostState extends State<CreatePost> {
         builder: (_, AsyncSnapshot<User?> snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             final User? user = snapshot.data;
-            return Scaffold(
+
+            return user == null ? Container(child:Scaffold(body: Center(child: Text("You have to be logged-in"))),) :
+            Scaffold(
                 body: Container(
               margin: EdgeInsets.all(20),
               alignment: Alignment.center,
@@ -104,10 +106,10 @@ class _CreatePostState extends State<CreatePost> {
                         onPressed: () {
                           setState(() {
                             FirebaseFirestore.instance.collection('Post').add({
-                              "uid": user?.uid,
+                              "uid": user.uid,
                               "title": postTitleController.text,
                               "content": postContentController.text,
-                              "userMail": user?.email,
+                              "userMail": user.email,
                               "flatId": widget.document.id,
                             });
                           });
