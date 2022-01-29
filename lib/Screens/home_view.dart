@@ -69,7 +69,7 @@ getIcons() async{
                     title: document['name'],
                     snippet: document['price'].toString() + ' €/month'),
                 onTap: () =>
-                    MediaQuery.of(context).size.width < 1100
+                    MediaQuery.of(context).size.width < 700
                         ? _showBottomSheet(document)
                         : showDialog(
                             context: context,
