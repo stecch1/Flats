@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flats/Screens/Social/create_post.dart';
 import 'package:flats/Utils/image_view.dart';
+import 'package:flats/Utils/wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
@@ -56,7 +57,7 @@ class _CustomDialogBoxState extends State<CustomDialogBox> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    CreatePost(widget.document)));
+                                    Wrapper(widget: CreatePost(widget.document))));
                       },
                       color: Colors.amber,
                       textColor: Colors.white,
