@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flats/Utils/custom_dialog.dart';
 import 'package:flats/Utils/image_view.dart';
+import 'package:flats/Utils/wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -127,7 +128,7 @@ getIcons() async{
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => CreatePost(document)));
+                                    builder: (context) => Wrapper(widget: CreatePost(document))));
                           },
                           color: Colors.amber,
                           textColor: Colors.white,
@@ -137,7 +138,6 @@ getIcons() async{
                     ),
                   ),
 
-                //TODO: add margin to these rows below
 
                 Row(
                   children: [
