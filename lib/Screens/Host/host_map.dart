@@ -14,18 +14,37 @@ import 'package:provider/provider.dart';
 
 class HostMap extends StatefulWidget {
   HostMap({Key? key, required String this.uid}) : super(key: key);
-
+  
   String uid;
 
   @override
   _HostMapState createState() => _HostMapState();
 }
 
+
 class _HostMapState extends State<HostMap> {
   Set<Marker> markers = Set();
   TextEditingController controller1 = TextEditingController();
   TextEditingController controller2 = TextEditingController();
   File? img;
+  late BitmapDescriptor customIcon;
+
+@override
+  void initState(){
+    getIcons();
+    super.initState();
+  }
+
+  getIcons() async{
+  var icon = await BitmapDescriptor.fromAssetImage(
+    ImageConfiguration(devicePixelRatio: 3.0),
+    "assets/images/marker.png"    
+  );
+  setState(() {
+    this.customIcon= icon;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -60,6 +79,7 @@ class _HostMapState extends State<HostMap> {
                   snippet: document['price'].toString(),
                 ),
                 onTap: () => {_onMarkerPressed(document)},
+                icon: customIcon,
               ));
             } else {
               print('document does not exist');
