@@ -1,0 +1,62 @@
+\documentclass[a4paper, 11pt, parskip=half]{scrreprt}
+\usepackage{graphicx}
+\usepackage{DejaVuSerif}
+\usepackage{DejaVuSans}
+\usepackage{sourcecodepro}
+\usepackage{float} 
+\usepackage[utf8]{inputenc}
+
+
+
+\begin{document}
+\pagenumbering{gobble}
+\begin{titlepage}
+    \begin{center}
+        
+        \begin{figure}[t]
+            \centering
+            \includegraphics[scale=1.4]{images/logo.png}
+        \end{figure}
+        
+        \vspace{0.1cm}
+        \Large
+        Design and Implementation of Mobile Applications
+        
+        \vspace{0.1cm}
+        \Large
+        Design Document
+        
+        \vspace{0.5cm}
+        \LARGE 
+        A.Y. 2021/2022
+        \vspace{1cm}
+            
+        \textbf{Alessandro Polidori, Fabio Stecchi}
+            
+        \vfill
+            
+        \begin{figure}[b]
+            \centering
+            \includegraphics[scale=0.6]{images/POLIlogo.png}
+        \end{figure} 
+        
+    \end{center}
+\end{titlepage}
+%\shipout\null           % Blank page
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+\include{introduction}
+
+\include{ArchitecturalDesign}
+
+\include{UIDesign}
+
+\include{Testing}
+
+\include{EffortSpent}
+
+
+\end{document}
