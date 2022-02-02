@@ -1,0 +1,36 @@
+\chapter{Introduction}
+
+\section{Purpose}
+This is the \textit{design document} (DD) of \textbf{\textit{Flats}} application developed by \textit{Alessandro Polidori} and \textit{Fabio Stecchi} in the context of the \textit{Design and Implementation of Mobile Application} course at Politecnico di Milano.\\
+The document explains the most important design choices we made and the motivations behind them.
+
+\section{Scope}
+\textbf{\textit{Flats}} is a multi-device application for smartphone and tablet and, the idea behind it, is to provide those who are looking for an apartment or a house to rent, a single platform offering the opportunity both to find and contact the owners and the possibility to post ads with the aim to find housemates to share the home and its rental cost.\\
+The idea was born from the difficulty of finding houses to rent and housemates: in fact, nowadays, people are having hard time to find the right solution because they are disoriented by the several different sources to be analyzed (agency, private ads on the web, private ads on the social media). Moreover, due to the high investment involved, the request to share the rental cost is high but the market does not offer any tool which allows the possibility to easily find a housemate. The research of housemates is currently managed by word of mouth and it takes time. Flats is the ideal solution which allows to solve this need by taking advantage of a single application. Time saving, accurate info, real time updates just in one click.  
+
+\section{Features description}
+The functionalities implemented in the app, trying to follow a possible
+order of interaction, are:
+
+\subsection{House navigation}
+It is the first screen shown when the app is loaded and also the only that can be used without the login or registration. It consists of a map of the city filled with markers associated with all available rental houses in that area. Users can click on the markers to obtain further information regarding the selected apartment.
+
+\subsection{Signup}
+If users are not yet registered, the signup screen will be shown when they will try to use the other app functions. They will be requested to enter their email and password in order to create their own profile.
+
+\subsection{Log in}
+The log in allows users to enter their credentials and log into the system to use all the features provided by the application.
+
+\subsection{Create Post}
+Users who find their ideal house solution and are also interested in finding a housemate can create a post by clicking on a button in the drop-down which contains information about the apartment in the House section. The post created will be shown to everyone in the Social section. Each post will be automatically linked to the apartment from which it was created and will contain information about it.
+
+\subsection{Send message}
+Users can start a chat in three different ways:
+\begin{enumerate}
+    \item by looking for the user's name in the proper bar in the chat section of the app.
+    \item by contacting the host of an apartment through a button in the window containing the details of an apartment in the House section.
+    \item by contacting a potential housemate by clicking the proper button on the respective post in the Social section.
+\end{enumerate}
+
+\subsection{Manage house}
+The last section of the app concerns those who want to put their property for rent. In this section hosts can add their property by entering the ad name, price, description and possible photos. In addition to this, hosts can also manage any property previously loaded with the possibility to delete it.
