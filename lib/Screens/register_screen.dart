@@ -56,7 +56,7 @@ class Register extends StatelessWidget {
                         .createUserWithEmailAndPassword(
                             emailController.text, passwordController.text)
                         .then((usr) => {
-                              FirebaseFirestore.instance.collection('User').add({
+                              FirebaseFirestore.instance.collection('User').doc(usr!.uid).set({
                                 "username": usr!.email!
                                     .substring(0, usr.email!.indexOf('@')),
                                 "email": usr.email,
