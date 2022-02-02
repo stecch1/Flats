@@ -109,12 +109,14 @@ class _FlatDetailsViewState extends State<FlatDetailsView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          snapshot.data['name'],
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 40,
+                        Flexible(
+                          child: Text(
+                            snapshot.data['name'],
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontFamily: 'Poppins',
+                              fontSize: 40,
+                            ),
                           ),
                         )
                       ],

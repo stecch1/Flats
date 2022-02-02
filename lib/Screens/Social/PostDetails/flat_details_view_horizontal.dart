@@ -117,15 +117,19 @@ class _FlatDetailsViewHorizontalState extends State<FlatDetailsViewHorizontal> {
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      snapshot.data['name'],
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontFamily: 'Poppins',
-                                        fontSize: 40,
-                                      ),
+                                  Flexible(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+
+                                        child: Text(
+                                          snapshot.data['name'],
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontFamily: 'Poppins',
+                                            fontSize: 40,
+                                          ),
+                                        ),
+
                                     ),
                                   )
                                 ],
